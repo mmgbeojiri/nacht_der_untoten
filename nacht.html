@@ -6,7 +6,7 @@
     <div id="display" z-index="1" style="position: absolute; top: 10px; left: 10px; color: white; font-size: 18px;"></div>
     <a-scene>
       <div id="floor"></div>
-      <a-plane src="Nacht_der_untoten1.webp" position="0 0.1 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
+      <a-plane src="Nacht_der_untoten1.webp" position="0 -0.1 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
       <!--Pillars-->
       <a-box position="-4.5 2 -8" rotation="0 0 0" height="4" color="#706b68" width="1.5" depth="1.5"></a-box>
       <a-box position="-8.5 2 -8" rotation="0 0 0" height="4" color="#706b68" width="1.5" depth="1.5"></a-box>
@@ -23,18 +23,18 @@
     <a-box position="9 2 -19.5" rotation="0 0 0" height="4" color="#706b68" width="2.5" depth="2.5"></a-box>
 
     <!-- Walls -->
-    <a-box position="-15.5 2 15" rotation="0 0 0" height="4" color="#706b68" width="0.5" depth="10"></a-box>
-
+    <a-box position="0 2 -14" rotation="0 0 0" height="4" color="#706b68" width="9" depth="1"></a-box>
+    <a-box position="-12.25 2 -14" rotation="0 0 0" height="4" color="#706b68" width="6.5" depth="1"></a-box>
       <a-sky color="#ECECEC"></a-sky>
     </a-scene>
   </body>
   <script>
     const colors = ["#1b1a18","#26211e","#3b3331","#292522"];
-    function tiles(xMin, xMax, zMin, zMax) {
+    function tiles(xMin, xMax, zMin, zMax, height=0) {
       for (let x = xMin; x < xMax; x++) {
         for (let z = zMin; z < zMax; z++) {
           let tile = document.createElement("a-plane");
-          tile.setAttribute("position", `${x} 0 ${z}`);
+          tile.setAttribute("position", `${x} ${height} ${z}`);
           tile.setAttribute("rotation", "-90 0 0");
           tile.setAttribute("width", "1");
           tile.setAttribute("height", "1");
@@ -43,7 +43,9 @@
         }
       }
     }
-    tiles(-15, -1, -13, 18); // Main Room
+    tiles(-15, -1, -13, 10); // Main Room -- front
+    tiles(-14, -1, 10, 14); // Main Room -- middle
+    tiles(-15, -1, 14, 18); // Main Room -- back
     tiles(-15, 16, -25,-13); // Hallway
 
     console.log(JSON.stringify(document.querySelector('[camera]').object3D.position));
