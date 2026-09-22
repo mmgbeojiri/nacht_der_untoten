@@ -24,8 +24,8 @@
     <a-box position="9 2 -19.5" rotation="0 0 0" height="4" color="#706b68" width="2.5" depth="2.5"></a-box>
 
     <!-- Walls -->
-    <a-box position="-1 2 -4" rotation="0 0 0" height="4" color="#706b68" width="1" depth="19"></a-box>
-    <a-box position="-16 2 -2" rotation="0 0 0" height="4" color="#706b68" width="1" depth="16"></a-box>
+    
+    <a-box position="-16 2 .75" rotation="0 0 0" height="4" color="#706b68" width="1" depth="10.5"></a-box>
     <a-box position="-15.5 2 11.5" rotation="0 0 0" height="4" color="#706b68" width="2" depth="4"></a-box>
 
     <a-box position="-11.5 2 18" rotation="0 0 0" height="4" color="#706b68" width="10" depth="1"></a-box>
@@ -34,6 +34,8 @@
 
     <a-box position="-4 2 12.5" rotation="0 0 0" height="4" color="#706b68" width="5" depth="0.5"></a-box>
     <a-box position="-13.5 2 12.5" rotation="0 0 0" height="4" color="#706b68" width="5" depth="0.5"></a-box>
+
+    <a-box position="-1 2 -4" rotation="0 0 0" height="4" color="#706b68" width="1" depth="19"></a-box>
 
     <!-- Walls - Hallway-->
     <a-box position="0 2 -14" rotation="0 0 0" height="4" color="#706b68" width="9" depth="1"></a-box>
@@ -50,9 +52,16 @@
     <a-entity window="boards: 2" position="6 0 -6"></a-entity>
     <a-entity window="boards: 3" position="10 0 -6"></a-entity>
     <a-entity window="boards: 4; height: 3" position="14 0 -6" rotation="0 180 0" ></a-entity>
+
+    <!-- Bars Demo -->
+    <a-cylinder color="#000" position="-0.3 1.75 -2" radius="0.1" height="3.5"></a-cylinder>
+    <a-cylinder color="#000" position="0.3 1.75 -2" radius="0.1" height="3.5"></a-cylinder>
+    <a-box color="#706b68" position="0 3.75 -2" width="1" height="0.5" depth="1"></a-box>
+
+    <a-entity bars="width: 3" position="1 0 -2"></a-entity>
     
     <!-- Windows -->
-     
+     <a-entity window="boards: 3; width: 4" position="-16 0 -10.5" rotation="0 90 0"></a-entity>
     <a-entity window="boards: 3; width: 4" position="-16 0 8" rotation="0 90 0"></a-entity>
     <a-entity window="boards: 3; width: 4" position="-16 0 15.5" rotation="0 90 0"></a-entity>
     <a-entity window="boards: 3; width: 4" position="-4.5 0 18" rotation="0 180 0"></a-entity>
@@ -63,6 +72,12 @@
     <a-entity window="boards: 3; width: 4" position="16 0 -23.5" rotation="0 -90 0"></a-entity>
     <a-entity window="boards: 3; width: 4" position="0.5 0 -26" rotation="0 0 0"></a-entity>
 
+    <!-- Bars -->
+      <a-entity bars rotation="0 90 0" position="-16 0 -13"></a-entity>
+      <a-entity bars rotation="0 90 0" position="-16 0 -8"></a-entity>
+      <a-entity bars rotation="0 90 0" position="-16 0 -7"></a-entity>
+      <a-entity bars rotation="0 90 0" position="-16 0 -6"></a-entity>
+      <a-entity bars rotation="0 90 0" position="-16 0 -5"></a-entity>
       <a-sky color="#ECECEC"></a-sky>
     </a-scene>
   </body>
@@ -126,6 +141,35 @@
         
       },
   
+    })
+
+    AFRAME.registerComponent("bars", {
+     schema: {
+        position: { type: "vec3", default: { x: 0, y: 0, z: 0 } },
+        rotation: { type: "vec3", default: { x: 0, y: 0, z: 0 } },
+      },
+      init: function() {
+          let leftbar = document.createElement("a-cylinder");
+          leftbar.setAttribute("position", `${this.data.position.x - 0.25} ${this.data.position.y+1.75} ${this.data.position.z}`);
+          leftbar.setAttribute("radius", "0.1");
+          leftbar.setAttribute("height", "3.5");
+          leftbar.setAttribute("color", "#000");
+          let rightbar = document.createElement("a-cylinder");
+          rightbar.setAttribute("position", `${this.data.position.x + 0.25} ${this.data.position.y+1.75} ${this.data.position.z}`);
+          rightbar.setAttribute("radius", "0.1");
+          rightbar.setAttribute("height", "3.5");
+          rightbar.setAttribute("color", "#000");
+          let topbar = document.createElement("a-box");
+          topbar.setAttribute("position", `${this.data.position.x} ${this.data.position.y+3.75} ${this.data.position.z}`);
+          topbar.setAttribute("width", "1");
+          topbar.setAttribute("height", "0.5");
+          topbar.setAttribute("depth", "1");
+          topbar.setAttribute("color", "#706b68");
+          this.el.appendChild(leftbar);
+          this.el.appendChild(rightbar);
+          this.el.appendChild(topbar);
+        
+      } 
     })
 
     const colors = ["#1b1a18","#26211e","#3b3331","#292522"];
