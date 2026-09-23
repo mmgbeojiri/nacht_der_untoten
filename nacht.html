@@ -102,18 +102,18 @@
         this.el.appendChild(bottomframe);
 
         let leftframe = document.createElement("a-box");
-        leftframe.setAttribute("position", `${this.data.position.x - this.data.width / 2 + 0.5} ${this.data.position.y+2} ${this.data.position.z}`);
+        leftframe.setAttribute("position", `${this.data.position.x - this.data.width / 2 + 0.25} ${this.data.position.y+2} ${this.data.position.z}`);
         leftframe.setAttribute("rotation", `${this.data.rotation.x} ${this.data.rotation.y} ${this.data.rotation.z}`);
-        leftframe.setAttribute("width", 1);
+        leftframe.setAttribute("width", 0.5);
         leftframe.setAttribute("height", 2);
         leftframe.setAttribute("depth", 1);
         leftframe.setAttribute("color", "#706b68");
         this.el.appendChild(leftframe);
 
         let rightframe = document.createElement("a-box");
-        rightframe.setAttribute("position", `${this.data.position.x + this.data.width / 2 - 0.5} ${this.data.position.y+2} ${this.data.position.z}`);
+        rightframe.setAttribute("position", `${this.data.position.x + this.data.width / 2 - 0.25} ${this.data.position.y+2} ${this.data.position.z}`);
         rightframe.setAttribute("rotation", `${this.data.rotation.x} ${this.data.rotation.y} ${this.data.rotation.z}`);
-        rightframe.setAttribute("width", 1);
+        rightframe.setAttribute("width", 0.5);
         rightframe.setAttribute("height", 2);
         rightframe.setAttribute("depth", 1);
         rightframe.setAttribute("color", "#706b68");
@@ -132,7 +132,7 @@
           let board = document.createElement("a-box");
           board.setAttribute("position", `${this.data.position.x} ${this.data.position.y+1.5+(((i+1)/this.data.boards)-(0.5/this.data.boards))} ${this.data.position.z+0.5}`);
           board.setAttribute("rotation", `${this.data.rotation.x} ${this.data.rotation.y} ${this.data.rotation.z+(Math.random()-0.5) * 20}`);
-          board.setAttribute("width", this.data.width-2+0.5);
+          board.setAttribute("width", this.data.width-1+0.5);
           board.setAttribute("height", 0.3);
           board.setAttribute("depth", 0.1);
           board.setAttribute("color", "#895129");
