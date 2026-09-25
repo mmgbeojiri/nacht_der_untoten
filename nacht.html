@@ -178,11 +178,12 @@
     function tiles(xMin, xMax, zMin, zMax, height=0) {
       for (let x = xMin; x < xMax; x++) {
         for (let z = zMin; z < zMax; z++) {
-          let tile = document.createElement("a-plane");
+          let tile = document.createElement("a-box");
           tile.setAttribute("position", `${x} ${height} ${z}`);
           tile.setAttribute("rotation", "-90 0 0");
           tile.setAttribute("width", "1");
           tile.setAttribute("height", "1");
+          tile.setAttribute("depth", "0.1");
           tile.setAttribute("color", colors[Math.floor(Math.random() * colors.length)]);
           document.querySelector("a-scene").appendChild(tile);
         }
@@ -195,8 +196,15 @@
     tiles(-15, -2, -30,-25) // hallway -- 
 
     //second floor
-    tiles(-15,-1,-13,0,4) 
-    tiles(-15, 16, -25,-13,4);
+    tiles(-15,-1,-13,0,     4)
+    tiles(-15,-8,0,1,       4)  // curve
+    tiles(-15,-9,1,2,       4)  
+    tiles(-15,-10,2,3,       4)  
+    tiles(-15,-11,3,7,       4)  
+
+    tiles(-15, -12, -30,-25, 4) // hallway stairs left
+    tiles(-5, -2, -30,-25, 4) // hallway stairs right  
+    tiles(-15, 16, -25,-13, 4); //hallway 
 
   </script>
 </html>
