@@ -7,8 +7,9 @@
     <a-scene>
       <div id="floor"></div>
       <!--<a-entity camera position="0 40 -10" rotation="-90 0 0"></a-entity> -->
+      <a-entity camera position="0 5.6 0" look-controls wasd-controls></a-entity>
       <a-plane src="Nacht_der_untoten1.webp" position="0 -0.1 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
-      <a-plane src="Nacht_der_untoten2.webp" position="0 4 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
+      <a-plane src="Nacht_der_untoten2.webp" position="0 3.9 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
       <!--Pillars-->
       <a-box position="-4.5 2 -8" rotation="0 0 0" height="4" color="#706b68" width="1.5" depth="1.5"></a-box>
       <a-box position="-8.5 2 -8" rotation="0 0 0" height="4" color="#706b68" width="1.5" depth="1.5"></a-box>
@@ -192,6 +193,10 @@
     tiles(-15, -1, 14, 18); // Main Room -- back
     tiles(-15, 16, -25,-13); // Hallway
     tiles(-15, -2, -30,-25) // hallway -- 
+
+    //second floor
+    tiles(-15,-1,-13,0,4) 
+    tiles(-15, 16, -25,-13,4);
 
   </script>
 </html>
