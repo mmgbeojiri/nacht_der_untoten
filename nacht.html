@@ -6,8 +6,12 @@
     <div id="display" z-index="1" style="position: absolute; top: 10px; left: 10px; color: white; font-size: 18px;"></div>
    
     <a-scene>
-      <!--<a-plane src="Nacht_der_untoten1.webp" position="0 -0.1 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
-    --><a-plane opacity="0.1" src="Nacht_der_untoten2.webp" position="0 4 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
+
+      
+
+      <a-plane opacity="0" src="Nacht_der_untoten1.webp" position="0 -0.1 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
+    <a-plane opacity="0" src="Nacht_der_untoten2.webp" position="0 4 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
+    <a-plane src="grid.jpg" position="0 0 0" rotation="-90 0 0" width="100" height="100"></a-plane>
     <!--staircam--><a-entity camera position="-10 5.6 -20" look-controls wasd-controls ></a-entity>
     <!--SecondFloorCam--><a-entity camera position="-4 5.6 0" look-controls wasd-controls id="secondfloor"></a-entity>
       <!--FirstFloorCam--><a-entity camera position="-8 1.6 -10"  look-controls wasd-controls id="firstfloor"></a-entity>
@@ -325,7 +329,6 @@
     ceilingTile(-15, -2, -30,-25,8)
     ceilingTile(-15, 16, -25,-13, 8); //hallway 
 
-    floortiles(-30, 30, -30, 30); // Main Floor
 
   </script>
 </html>
