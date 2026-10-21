@@ -16,11 +16,24 @@
       <a-plane opacity="0" src="#nacht1" position="0 -0.1 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
     <a-plane opacity="0" src="#nacht2" position="0 4 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
     <a-plane src="#grid" repeat="10 10" position="0 0 0" rotation="-90 0 0" width="100" height="100"></a-plane>
-    <!--FirstFloorCam--><a-entity camera position="-8 1.6 -10"  look-controls wasd-controls id="firstfloor"></a-entity>
-    <!--TopFloorCam--><a-entity  camera position="0 30 -10" wasd-controls rotation="-90 0 0" id="topfloor"></a-entity> 
-    <!--Demo Cam--><a-entity camera position="10 1.6 20"  look-controls wasd-controls id="firstfloor"></a-entity>
+    <!--FirstFloorCam--><a-entity camera active="true" position="-8 1.6 -10"  look-controls wasd-controls id="firstfloor">
+      <a-text id="playerpos"
+        value="" 
+        position="0 0.6 -1" 
+        scale="0.3 0.3 0.3" 
+        color="#FFFFFF"
+        align="left">
+      </a-text>
+      <a-text value="" id="boardwindow"
+        position="0 0.0 -1" 
+        scale="0.5 0.5 0.5" 
+        color="#FFFFFF"
+        align="center"></a-text>
+    </a-entity>
+    
+    <!--SecondFloorCam--><a-entity active="false" camera position="-4 5.6 0" look-controls wasd-controls id="secondfloor"></a-entity>
+    <!--TopFloorCam--><a-entity  active="false" camera position="0 30 -10" wasd-controls rotation="-90 0 0" id="topfloor"></a-entity> 
 
-    <!--SecondFloorCam--><a-entity camera position="-4 5.6 0" look-controls wasd-controls id="secondfloor"></a-entity>
 
       <!-- Pillars-->
       <a-box position="-4.5 2 -8" rotation="0 0 0" height="4" color="#3c3636" width="1.5" depth="1.5"></a-box>
@@ -205,9 +218,11 @@
         width: { type: "number", default: 4 },
         height: { type: "number", default: 4 },
         boards: { type: "number", default: 1 }
+        
       },
       init: function() {
         //create window frame
+        this.isPlayerNearThisWindow = false;
         let bottomframe = document.createElement("a-box");
         bottomframe.setAttribute("position", `${this.data.position.x} ${this.data.position.y+0.5} ${this.data.position.z}`);
         bottomframe.setAttribute("rotation", `${this.data.rotation.x} ${this.data.rotation.y} ${this.data.rotation.z}`);
@@ -256,6 +271,24 @@
         }
         
       },
+
+      tick: function(time, timeDelta) {
+        
+        if (this.el.getAttribute("position").distanceTo(playerPosition) < 5){ 
+          if (!this.isPlayerNearThisWindow) {
+            this.isPlayerNearThisWindow = true;
+            windowsNearPlayer++;
+            updateBoardText()
+          }
+        } else {
+          if (this.isPlayerNearThisWindow) {
+            this.isPlayerNearThisWindow = false;
+            windowsNearPlayer--;
+            updateBoardText()
+          }
+        }
+        
+      }
   
     })
 
@@ -460,6 +493,32 @@
     ceilingTile(-15, -2, -30,-25,8)
     ceilingTile(-15, 16, -25,-13, 8); //hallway 
 
+    let player = document.getElementById("firstfloor");
+    let playerPosition = player.getAttribute("position");
+    let player_pos_text = document.getElementById("playerpos");
+    let board_window_text = document.getElementById("boardwindow");
+    let windowsNearPlayer = 0;
+
+    function updateBoardText() {
+      if (windowsNearPlayer > 0) {
+        board_window_text.setAttribute("value", `Press F to board with the window.`);
+      } else {
+        board_window_text.setAttribute("value", ``);
+      }
+    }
+
+    function updateHud() {
+      player_pos_text.setAttribute("value", 
+      `Position: 
+      ${playerPosition.x.toFixed(2)}
+      ${playerPosition.y.toFixed(2)}
+      ${playerPosition.z.toFixed(2)}
+      windowsnearplayer: ${windowsNearPlayer}`
+
+    );
+      requestAnimationFrame(updateHud);
+    }
+    updateHud();
 
   </script>
 </html>
