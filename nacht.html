@@ -16,8 +16,8 @@
       <a-plane opacity="0" src="#nacht1" position="0 -0.1 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
     <a-plane opacity="0" src="#nacht2" position="0 4 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
     <a-plane src="#grid" repeat="10 10" position="0 0 0" rotation="-90 0 0" width="100" height="100"></a-plane>
-    <!--TopFloorCam--><a-entity  camera position="0 30 -10" wasd-controls rotation="-90 0 0" id="topfloor"></a-entity> 
     <!--FirstFloorCam--><a-entity camera position="-8 1.6 -10"  look-controls wasd-controls id="firstfloor"></a-entity>
+    <!--TopFloorCam--><a-entity  camera position="0 30 -10" wasd-controls rotation="-90 0 0" id="topfloor"></a-entity> 
     <!--Demo Cam--><a-entity camera position="10 1.6 20"  look-controls wasd-controls id="firstfloor"></a-entity>
 
     <!--SecondFloorCam--><a-entity camera position="-4 5.6 0" look-controls wasd-controls id="secondfloor"></a-entity>
@@ -49,14 +49,16 @@
     <!-- Walls -->
     
     <a-box position="-16 2 .75" rotation="0 0 0" height="4" color="#3c3636" width="1" depth="10.5"></a-box>
-    <a-box position="-15.5 2 11.5" rotation="0 0 0" height="4" color="#3c3636" width="2" depth="4"></a-box>
+    <a-box position="-14.5 2 11" rotation="0 0 0" height="4" color="#3c3636" width="4" depth="3"></a-box>
 
     <a-box position="-11.5 2 18" rotation="0 0 0" height="4" color="#3c3636" width="10" depth="1"></a-box>
     <a-box position="-2 2 18" rotation="0 0 0" height="4" color="#3c3636" width="1" depth="1"></a-box>
     <a-box position="-1 2 13.5" rotation="0 0 0" height="4" color="#3c3636" width="1" depth="10"></a-box>
 
-    <a-box position="-4 2 12.5" rotation="0 0 0" height="4" color="#3c3636" width="5" depth="0.5"></a-box>
+    <!--<a-box position="-4 2 12.5" rotation="0 0 0" height="4" color="#3c3636" width="5" depth="0.5"></a-box>
     <a-box position="-13.5 2 12.5" rotation="0 0 0" height="4" color="#3c3636" width="5" depth="0.5"></a-box>
+    -->
+    <a-box position="-16 2 13" rotation="0 0 0" height="4" color="#3c3636" width="1" depth="1"></a-box>
 
     <a-box position="-1 2 -4" rotation="0 0 0" height="4" color="#3c3636" width="1" depth="19"></a-box>
 
@@ -161,8 +163,9 @@
 
     <!-- Furniture -->
 
-    <a-entity bookshelf position="-5 0 11.5" rotation="30 20 0"></a-entity>
+    <a-entity bookshelf position="-5 0 11.5" rotation="30 40 0"></a-entity>
     <a-entity bookshelf position="-3 0 13.5"></a-entity>
+    <a-entity crates position="-12 0.5 12"></a-entity>
 
      <a-entity position="10 0 12.5" class="bookshelf">
       <a-entity class="bookshelve" position="0 0 0">
@@ -328,6 +331,42 @@
       }
     });
 
+    AFRAME.registerComponent("crates", {
+      init: function() {
+          let box1 = document.createElement("a-box");
+          box1.setAttribute("position", `${0} ${0} ${0}`);
+          box1.setAttribute("color", "#895129");
+          box1.setAttribute("opacity", "0.8");
+          this.el.appendChild(box1);
+          let innerbox1 = document.createElement("a-box");
+          innerbox1.setAttribute("position", `${0} ${0} ${0}`);
+          innerbox1.setAttribute("color", "#000");
+          innerbox1.setAttribute("width", "0.8");
+          innerbox1.setAttribute("height", "0.8");
+          innerbox1.setAttribute("depth", "0.8");
+          this.el.appendChild(innerbox1);
+        
+          let box2 = document.createElement("a-box");
+          box2.setAttribute("position", `${0} ${1} ${0}`);
+          box2.setAttribute("color", "#895129");
+          box2.setAttribute("opacity", "0.8");
+          box2.setAttribute("rotation", "0 15 0");
+          this.el.appendChild(box2);
+
+          let innerbox2 = document.createElement("a-box");
+          innerbox2.setAttribute("position", `${0} ${1} ${0}`);
+          innerbox2.setAttribute("color", "#000");
+          innerbox2.setAttribute("width", "0.8");
+          innerbox2.setAttribute("height", "0.8");
+          innerbox2.setAttribute("depth", "0.8");
+          innerbox2.setAttribute("rotation", "0 15 0");
+          this.el.appendChild(innerbox2);
+
+
+      }
+    })
+
+
     document.addEventListener("keydown", function(event) {
       if (event.key === "1") {
         document.querySelector("#firstfloor").setAttribute("camera", "active", true);
@@ -396,8 +435,8 @@
       }
     }
     tiles(-15, -1, -13, 10); // Main Room -- front
-    tiles(-14, -1, 10, 14); // Main Room -- middle
-    tiles(-15, -1, 14, 18); // Main Room -- back
+    tiles(-14, -1, 10, 13); // Main Room -- middle
+    tiles(-15, -1, 13, 18); // Main Room -- back
     tiles(-15, 16, -25,-13); // Hallway
     tiles(-15, -2, -30,-25) // hallway -- 
 
