@@ -267,7 +267,7 @@ let windowsNearPlayer = 0;
 
 function updateBoardText() {
     if (windowsNearPlayer > 0) {
-        board_window_text.setAttribute("value", `Press F to board with the window.`);
+        board_window_text.setAttribute("value", `Press F to board the window.`);
     } else {
         board_window_text.setAttribute("value", ``);
     }
@@ -276,9 +276,7 @@ function updateBoardText() {
 function updateHud() {
     player_pos_text.setAttribute("value",
         `Position: 
-      ${playerPosition.x.toFixed(2)}
-      ${playerPosition.y.toFixed(2)}
-      ${playerPosition.z.toFixed(2)}
+      x:${playerPosition.x.toFixed(2)} y:${playerPosition.y.toFixed(2)} z:${playerPosition.z.toFixed(2)}
       windowsnearplayer: ${windowsNearPlayer}`
 
     );
