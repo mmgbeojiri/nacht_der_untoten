@@ -11,6 +11,7 @@ AFRAME.registerComponent("window", {
     init: function () {
         //create window frame
         this.isPlayerNearThisWindow = false;
+        this.debounce = 0;
         let bottomframe = document.createElement("a-box");
         bottomframe.setAttribute("position", `${this.data.position.x} ${this.data.position.y + 0.5} ${this.data.position.z}`);
         bottomframe.setAttribute("rotation", `${this.data.rotation.x} ${this.data.rotation.y} ${this.data.rotation.z}`);
@@ -68,6 +69,16 @@ AFRAME.registerComponent("window", {
                 windowsNearPlayer++;
                 updateBoardText()
             }
+            if (interactkey) {
+                if(this.debounce <= 0){
+                    this.el.appendChild(newBoardElement(this.data))
+                    this.debounce = 50
+                } else {
+                    this.debounce -= 1;
+                }
+            }
+            
+
         } else {
             if (this.isPlayerNearThisWindow) {
                 this.isPlayerNearThisWindow = false;
@@ -187,7 +198,18 @@ AFRAME.registerComponent("crates", {
     }
 })
 
+function newBoardElement(data) {
+    let board = document.createElement("a-box");
+            board.setAttribute("position", `${data.position.x} ${data.position.y + 2 + (Math.random()-0.5)*1} ${data.position.z + 0.5}`);
+            board.setAttribute("rotation", `${data.rotation.x} ${data.rotation.y} ${data.rotation.z + (Math.random() - 0.5) * 20}`);
+            board.setAttribute("width", data.width - 1 + 0.5);
+            board.setAttribute("height", 0.3);
+            board.setAttribute("depth", 0.1);
+            board.setAttribute("color", "#895129");
+            return board;
+}
 
+let interactkey = false;
 document.addEventListener("keydown", function (event) {
     if (event.key === "1") {
         document.querySelector("#firstfloor").setAttribute("camera", "active", true);
@@ -195,6 +217,14 @@ document.addEventListener("keydown", function (event) {
     } else if (event.key === "2") {
         document.querySelector("#firstfloor").setAttribute("camera", "active", false);
         document.querySelector("#secondfloor").setAttribute("camera", "active", true);
+    } else if (event.key === "f" || event.key === "F") {
+        interactkey = true;
+    }
+});
+
+document.addEventListener("keyup", function (event) {
+    if (event.key === "f" || event.key === "F") {
+        interactkey = false;
     }
 });
 
