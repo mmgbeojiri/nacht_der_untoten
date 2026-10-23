@@ -50,8 +50,11 @@ AFRAME.registerComponent("window", {
 
         for (let i = 0; i < this.data.boards; i++) {
             let board = document.createElement("a-box");
-            board.setAttribute("position", `${this.data.position.x} ${this.data.position.y + 1.5 + (((i + 1) / this.data.boards) - (0.5 / this.data.boards))} ${this.data.position.z + 0.5}`);
-            board.setAttribute("rotation", `${this.data.rotation.x} ${this.data.rotation.y} ${this.data.rotation.z + (Math.random() - 0.5) * 20}`);
+            let boardHeight = (i / this.data.boards) + ((0.5 * (this.data.boards - 1)) / this.data.boards);
+            board.setAttribute("position", `${this.data.position.x} ${this.data.position.y + 1 + ((i + 1) / this.data.boards) + ((0.5*(this.data.boards-1)) / this.data.boards)} ${this.data.position.z + 0.5}`);
+            //board height can be represented by the equation: (i/boards + 0.5(boards-1)/boards) 
+            board.setAttribute("rotation", `0 0 0`);
+            //board.setAttribute("rotation", `${this.data.rotation.x} ${this.data.rotation.y} ${this.data.rotation.z + (Math.random() - 0.5) * 20}`)
             board.setAttribute("width", this.data.width - 1 + 0.5);
             board.setAttribute("height", 0.3);
             board.setAttribute("depth", 0.1);
