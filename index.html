@@ -5,7 +5,7 @@
   <body>
     <div id="display" z-index="1" style="position: absolute; top: 10px; left: 10px; color: white; font-size: 18px;"></div>
    
-    <a-scene>
+    <a-scene keyboard-shortcuts="enterVR: false; exitVR: false;">
 
       <a-assets>
         <img id="grid"  src="grid.jpg"/>
@@ -31,7 +31,8 @@
         color="#FFFFFF"
         align="center">
       </a-text>
-      <a-cursor></a-cursor>
+      <a-cursor geometry="primitive: circle; radius:0.005"
+            material="color: white; shader: flat"></a-cursor>
     </a-entity>
     
     <!--SecondFloorCam--><a-entity camera active="false"  position="-4 5.6 0" look-controls wasd-controls id="secondfloor"></a-entity>
