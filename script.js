@@ -1,17 +1,18 @@
-
+const max_boards = 7;
 AFRAME.registerComponent("window", {
     schema: {
         position: { type: "vec3", default: { x: 0, y: 0, z: 0 } },
         rotation: { type: "vec3", default: { x: 0, y: 0, z: 0 } },
         width: { type: "number", default: 4 },
         height: { type: "number", default: 4 },
-        boards: { type: "number", default: 1 }
+        boards: { type: "number", default: 0 }
 
     },
     init: function () {
         //create window frame
         this.isPlayerNearThisWindow = false;
         this.debounce = 0;
+        this.canBeBoarded = true;
         let bottomframe = document.createElement("a-box");
         bottomframe.setAttribute("position", `${this.data.position.x} ${this.data.position.y + 0.5} ${this.data.position.z}`);
         bottomframe.setAttribute("rotation", `${this.data.rotation.x} ${this.data.rotation.y} ${this.data.rotation.z}`);
@@ -51,7 +52,8 @@ AFRAME.registerComponent("window", {
         for (let i = 0; i < this.data.boards; i++) {
             let board = document.createElement("a-box");
             let boardHeight = ((i + 1) / this.data.boards) + ((0.5*(this.data.boards-1)) / this.data.boards);
-            board.setAttribute("position", `${this.data.position.x} ${this.data.position.y + 1 + 1*(boardHeight)} ${this.data.position.z + 0.5}`);
+            let spacingmultipler = 2
+            board.setAttribute("position", `${this.data.position.x} ${this.data.position.y + 1 + spacingmultipler*(boardHeight) - spacingmultipler*0.5} ${this.data.position.z + 0.5}`);
             //board height can be represented by the equation: (i/boards + 0.5(boards-1)/boards) 
             //board.setAttribute("rotation", `0 0 0`);
             board.setAttribute("rotation", `${this.data.rotation.x} ${this.data.rotation.y} ${this.data.rotation.z + (Math.random() - 0.5) * 20}`)
@@ -65,19 +67,24 @@ AFRAME.registerComponent("window", {
     },
 
     tick: function (time, timeDelta) {
-
+        this.canBeBoarded = this.data.boards < max_boards;
         if (this.el.getAttribute("position").distanceTo(playerPosition) < 5) {
             if (!this.isPlayerNearThisWindow) {
+                if (this.canBeBoarded) {
                 this.isPlayerNearThisWindow = true;
                 windowsNearPlayer++;
                 updateBoardText()
+                } 
             }
             if (interactkey) {
-                if(this.debounce <= 0){
-                    this.el.appendChild(newBoardElement(this.data))
-                    this.debounce = 50
+                if(this.debounce <= 0 ){
+                    if (this.canBeBoarded) {
+                        this.debounce = 60
+                        this.el.appendChild(newBoardElement(this.data))
+                        this.data.boards++;
+                    } 
                 } else {
-                    this.debounce -= 1;
+                    this.debounce -= timeDelta/16;
                 }
             }
             
@@ -203,13 +210,13 @@ AFRAME.registerComponent("crates", {
 
 function newBoardElement(data) {
     let board = document.createElement("a-box");
-            board.setAttribute("position", `${data.position.x} ${data.position.y + 2 + (Math.random()-0.5)*1} ${data.position.z + 0.5}`);
-            board.setAttribute("rotation", `${data.rotation.x} ${data.rotation.y} ${data.rotation.z + (Math.random() - 0.5) * 20}`);
-            board.setAttribute("width", data.width - 1 + 0.5);
-            board.setAttribute("height", 0.3);
-            board.setAttribute("depth", 0.1);
-            board.setAttribute("color", "#895129");
-            return board;
+    board.setAttribute("position", `${data.position.x} ${data.position.y + 2 + (Math.random()-0.5)*1.5} ${data.position.z + 0.5}`);
+    board.setAttribute("rotation", `${data.rotation.x} ${data.rotation.y} ${data.rotation.z + (Math.random() - 0.5) * 20}`);
+    board.setAttribute("width", data.width - 1 + 0.5);
+    board.setAttribute("height", 0.3);
+    board.setAttribute("depth", 0.1);
+    board.setAttribute("color", "#895129");
+    return board;
 }
 
 let interactkey = false;
