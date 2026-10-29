@@ -13,6 +13,7 @@ AFRAME.registerComponent("window", {
         this.isPlayerNearThisWindow = false;
         this.debounce = 0;
         this.canBeBoarded = true;
+        this.textActive = false;
         let bottomframe = document.createElement("a-box");
         bottomframe.setAttribute("position", `${this.data.position.x} ${this.data.position.y + 0.5} ${this.data.position.z}`);
         bottomframe.setAttribute("rotation", `${this.data.rotation.x} ${this.data.rotation.y} ${this.data.rotation.z}`);
@@ -70,29 +71,40 @@ AFRAME.registerComponent("window", {
         this.canBeBoarded = this.data.boards < max_boards;
         if (this.el.getAttribute("position").distanceTo(playerPosition) < 5) {
             if (!this.isPlayerNearThisWindow) {
-                if (this.canBeBoarded) {
+                
+                if (this.canBeBoarded) { // if player is near window and its not full
                 this.isPlayerNearThisWindow = true;
                 windowsNearPlayer++;
+                this.textActive = true;
                 updateBoardText()
                 } 
+                
+                
             }
-            if (interactkey) {
+            if (interactkey) { // f key pressed, attempt to board. if 
+                if (this.canBeBoarded) {
                 if(this.debounce <= 0 ){
-                    if (this.canBeBoarded) {
                         this.debounce = 60
                         this.el.appendChild(newBoardElement(this.data))
                         this.data.boards++;
-                    } 
-                } else {
-                    this.debounce -= timeDelta/16;
+                        
+                    } else {
+                        this.debounce -= timeDelta/16;
+                    }
+                } else if (this.textActive) { // board is filled while we build
+                    this.textActive = false;
+                    windowsNearPlayer--;
+                    updateBoardText()
                 }
             }
             
+            
 
-        } else {
-            if (this.isPlayerNearThisWindow) {
+        } else { // player is not near this window
+            if (this.textActive) {
                 this.isPlayerNearThisWindow = false;
                 windowsNearPlayer--;
+                this.textActive = false;
                 updateBoardText()
             }
         }
