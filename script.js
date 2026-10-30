@@ -69,7 +69,8 @@ AFRAME.registerComponent("window", {
 
     tick: function (time, timeDelta) {
         this.canBeBoarded = this.data.boards < max_boards;
-        if (this.el.getAttribute("position").distanceTo(playerPosition) < 5) {
+
+        if (this.el.getAttribute("position").distanceTo(playerPosition) < 5 && Math.abs(this.el.getAttribute("position").y- playerPosition.y) < this.data.height) {
             if (!this.isPlayerNearThisWindow) {
                 
                 if (this.canBeBoarded) { // if player is near window and its not full
@@ -272,6 +273,7 @@ function tiles(xMin, xMax, zMin, zMax, height = 0) {
             undertile.setAttribute("height", "1");
             undertile.setAttribute("depth", "0.05");
             undertile.setAttribute("color", "#25231d");
+            undertile.setAttribute("static-body", "shape: plane;")
             document.querySelector("a-scene").appendChild(undertile);
         }
     }
@@ -305,6 +307,7 @@ function ceilingTile(xMin, xMax, zMin, zMax, height = 0) {
             undertile.setAttribute("height", "1");
             undertile.setAttribute("depth", "0.05");
             undertile.setAttribute("color", "#25231d");
+            undertile.setAttribute("static-body", "shape: plane;")
             document.querySelector("a-scene").appendChild(undertile);
         }
     }
