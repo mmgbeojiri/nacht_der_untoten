@@ -343,31 +343,43 @@ function updateHud() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-tiles(-15, -1, -13, 10); // Main Room -- front
-tiles(-14, -1, 10, 13); // Main Room -- middle
-tiles(-15, -1, 13, 18); // Main Room -- back
-tiles(-15, 16, -25, -13); // Hallway
-tiles(-15, -2, -30, -25) // hallway -- 
+//tiles(-15, -1, -13, 10); // Main Room -- front
+
+const mainRoomFront = new Tile(-15, -1, -13, 10); // Main Room -- front
+const mainRoomMiddle = new Tile(-14, -1, 10, 13); // Main Room -- middle
+const mainRoomBack = new Tile(-15, -1, 13, 18); // Main Room -- back
+const hallway = new Tile(-15, 16, -25, -13); // Hallway
+const hallwayStair = new Tile(-15, -2, -30, -25); // hallway --
 
 //second floor
-tiles(-15, -1, -13, 0, 4)
-tiles(-15, -8, 0, 1, 4)  // curve
-tiles(-15, -9, 1, 2, 4)
-tiles(-15, -10, 2, 3, 4)
-tiles(-15, -11, 3, 7, 4)
 
-tiles(-15, -12, -30, -25, 4) // hallway stairs left
-tiles(-5, -2, -30, -25, 4) // hallway stairs right  
-tiles(-15, 16, -25, -13, 4); //hallway 
+const secondFloorFront = new Tile(-15, -1, -13, 0, 4); //second floor front
+const secondfloorcurve1 = new Tile(-15, -8, 0, 1, 4);  // curve
+const secondfloorcurve2 = new Tile(-15, -9, 1, 2, 4);
+const secondfloorcurve3 = new Tile(-15, -10, 2, 3, 4);
+const secondfloorcurve4 = new Tile(-15, -11, 3, 7, 4);
 
+const secondfloorstairsleft = new Tile(-15, -12, -30, -25, 4); // hallway stairs left
+const secondfloorstairsright = new Tile(-5, -2, -30, -25, 4);
+const secondfloorhallway = new Tile(-15, 16, -25, -13, 4); //hallway
+/*
 ceilingTile(-15, -1, 8, 10, 4) //first floor - top - hole
 ceilingTile(-15, -13, 10, 16, 4) //first floor - left - hole
 ceilingTile(-3, -1, 10, 16, 4) //first floor - left - hole
 ceilingTile(-15, -1, 16, 18, 4) //first floor - right hole
-
+*/
+const firstfloorceilingholetop = new Tile(-15, -1, 8, 10, 4, false) //first floor - top - hole
+const firstfloorceilingholeleft = new Tile(-15, -13, 10, 16, 4, false) //first floor - left - hole
+const firstfloorceilingholeright = new Tile(-3, -1, 10, 16, 4, false) //first floor - right - hole
+const firstfloorceilingholeright2 = new Tile(-15, -1, 16, 18, 4, false) //first floor - right - hole
+/*
 ceilingTile(-15, -1, -13, 7, 8) //second floor
 ceilingTile(-15, -2, -30, -25, 8)
 ceilingTile(-15, 16, -25, -13, 8); //hallway
+*/
+const secondfloorceiling = new Tile(-15, -1, -13, 7, 8, false) //second floor
+const secondfloorceilingstairs = new Tile(-15, -2, -30, -25, 8, false)
+const secondfloorceilinghallway2 = new Tile(-15, 16, -25, -13, 8, false); //hallway
 
 
 updateHud();
