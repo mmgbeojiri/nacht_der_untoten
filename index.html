@@ -1,6 +1,7 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
   </head>
   <body>
     <div id="display" z-index="1" style="position: absolute; top: 10px; left: 10px; color: white; font-size: 18px;"></div>
@@ -15,9 +16,11 @@
 
       <a-plane opacity="0" src="#nacht1" position="0 -0.1 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
     <a-plane opacity="0" src="#nacht2" position="0 4 -8" rotation="-90 90 0" width="64" height="36"></a-plane>
-    <a-plane src="#grid" repeat="10 10" position="0 0 0" rotation="-90 0 0" width="100" height="100"></a-plane>
+    <a-plane src="#grid" static-body repeat="10 10" position="0 0 0" rotation="-90 0 0" width="100" height="100"></a-plane>
     <!--FirstFloorCam-->
-    <a-entity camera active="true"  position="-8 1.6 -10"  look-controls="pointerLockEnabled: true" wasd-controls id="firstfloor">
+
+    <a-entity id="cameraRig" position="-8 1.6 -10">
+    <a-entity camera active="true"    wasd-controls look-controls="pointerLockEnabled: true"  id="firstfloor">
       <a-text id="playerpos"
         value="" 
         position="-0.5 0.6 -1" 
@@ -34,6 +37,11 @@
       <a-cursor geometry="primitive: circle; radius:0.005"
             material="color: white; shader: flat"></a-cursor>
     </a-entity>
+    </a-entity>
+
+    <a-box position="-20.2 30 -10" rotation="30 0 0" dynamic-body></a-box>
+    <a-sphere position="-20 0.5 -10" dynamic-body></a-sphere>
+
     
     <!--TopFloorCam<a-entity camera active="false"  position="0 30 -10" wasd-controls rotation="-90 0 0" id="topfloor"></a-entity> 
   -->

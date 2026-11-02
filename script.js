@@ -21,6 +21,7 @@ AFRAME.registerComponent("window", {
         bottomframe.setAttribute("height", 1);
         bottomframe.setAttribute("depth", 1);
         bottomframe.setAttribute("color", "#3c3636");
+        bottomframe.setAttribute("static-body", "shape: box;")
         this.el.appendChild(bottomframe);
 
         let leftframe = document.createElement("a-box");
@@ -30,6 +31,8 @@ AFRAME.registerComponent("window", {
         leftframe.setAttribute("height", 2);
         leftframe.setAttribute("depth", 1);
         leftframe.setAttribute("color", "#3c3636");
+        leftframe.setAttribute("static-body", "shape: box;")
+
         this.el.appendChild(leftframe);
 
         let rightframe = document.createElement("a-box");
@@ -39,6 +42,7 @@ AFRAME.registerComponent("window", {
         rightframe.setAttribute("height", 2);
         rightframe.setAttribute("depth", 1);
         rightframe.setAttribute("color", "#3c3636");
+        rightframe.setAttribute("static-body", "shape: box;")
         this.el.appendChild(rightframe);
 
         let topframe = document.createElement("a-box");
@@ -48,6 +52,7 @@ AFRAME.registerComponent("window", {
         topframe.setAttribute("height", 1);
         topframe.setAttribute("depth", 1);
         topframe.setAttribute("color", "#3c3636");
+        topframe.setAttribute("static-body", "shape: box;");
         this.el.appendChild(topframe);
 
         for (let i = 0; i < this.data.boards; i++) {
@@ -62,6 +67,7 @@ AFRAME.registerComponent("window", {
             board.setAttribute("height", 0.3);
             board.setAttribute("depth", 0.1);
             board.setAttribute("color", "#895129");
+            board.setAttribute("static-body", "shape: box;")
             this.el.appendChild(board);
         }
 
@@ -125,17 +131,20 @@ AFRAME.registerComponent("bars", {
         leftbar.setAttribute("radius", "0.1");
         leftbar.setAttribute("height", "3.5");
         leftbar.setAttribute("color", "#000");
+        leftbar.setAttribute("static-body", "shape: cylinder;")
         let rightbar = document.createElement("a-cylinder");
         rightbar.setAttribute("position", `${this.data.position.x + 0.25} ${this.data.position.y + 1.75} ${this.data.position.z}`);
         rightbar.setAttribute("radius", "0.1");
         rightbar.setAttribute("height", "3.5");
         rightbar.setAttribute("color", "#000");
+        rightbar.setAttribute("static-body", "shape: cylinder;")
         let topbar = document.createElement("a-box");
         topbar.setAttribute("position", `${this.data.position.x} ${this.data.position.y + 3.75} ${this.data.position.z}`);
         topbar.setAttribute("width", "1");
         topbar.setAttribute("height", "0.5");
         topbar.setAttribute("depth", "1");
         topbar.setAttribute("color", "#3c3636");
+        topbar.setAttribute("static-body", "shape: box;");
         this.el.appendChild(leftbar);
         this.el.appendChild(rightbar);
         this.el.appendChild(topbar);
@@ -153,21 +162,25 @@ AFRAME.registerComponent("bookshelf", {
             cylinder1.setAttribute("color", "#000");
             cylinder1.setAttribute("radius", "0.1");
             cylinder1.setAttribute("position", `-1 ${0.5 + i} -0.5`);
+            cylinder1.setAttribute("static-body", "shape: cylinder;")
 
             let cylinder2 = document.createElement("a-cylinder");
             cylinder2.setAttribute("color", "#000");
             cylinder2.setAttribute("radius", "0.1");
             cylinder2.setAttribute("position", `1 ${0.5 + i} -0.5`);
+            cylinder2.setAttribute("static-body", "shape: cylinder;")
 
             let cylinder3 = document.createElement("a-cylinder");
             cylinder3.setAttribute("color", "#000");
             cylinder3.setAttribute("radius", "0.1");
             cylinder3.setAttribute("position", `-1 ${0.5 + i} 0.5`);
+            cylinder3.setAttribute("static-body", "shape: cylinder;")
 
             let cylinder4 = document.createElement("a-cylinder");
             cylinder4.setAttribute("color", "#000");
             cylinder4.setAttribute("radius", "0.1");
             cylinder4.setAttribute("position", `1 ${0.5 + i} 0.5`);
+            cylinder4.setAttribute("static-body", "shape: cylinder;")
 
             let box = document.createElement("a-box");
             box.setAttribute("position", `${0} ${1 + i} ${0}`);
@@ -175,6 +188,7 @@ AFRAME.registerComponent("bookshelf", {
             box.setAttribute("depth", "1.25");
             box.setAttribute("width", "2.25");
             box.setAttribute("color", "#895129");
+            box.setAttribute("static-body", "shape: box;");
             this.el.appendChild(cylinder1);
             this.el.appendChild(cylinder2);
             this.el.appendChild(cylinder3);
@@ -192,6 +206,7 @@ AFRAME.registerComponent("crates", {
         box1.setAttribute("position", `${0} ${0} ${0}`);
         box1.setAttribute("color", "#895129");
         box1.setAttribute("opacity", "0.8");
+        box1.setAttribute("static-body", "shape: box;");
         this.el.appendChild(box1);
         let innerbox1 = document.createElement("a-box");
         innerbox1.setAttribute("position", `${0} ${0} ${0}`);
@@ -199,6 +214,7 @@ AFRAME.registerComponent("crates", {
         innerbox1.setAttribute("width", "0.8");
         innerbox1.setAttribute("height", "0.8");
         innerbox1.setAttribute("depth", "0.8");
+        innerbox1.setAttribute("static-body", "shape: box;");
         this.el.appendChild(innerbox1);
 
         let box2 = document.createElement("a-box");
@@ -206,6 +222,7 @@ AFRAME.registerComponent("crates", {
         box2.setAttribute("color", "#895129");
         box2.setAttribute("opacity", "0.8");
         box2.setAttribute("rotation", "0 15 0");
+        box2.setAttribute("static-body", "shape: box;");
         this.el.appendChild(box2);
 
         let innerbox2 = document.createElement("a-box");
@@ -215,6 +232,7 @@ AFRAME.registerComponent("crates", {
         innerbox2.setAttribute("height", "0.8");
         innerbox2.setAttribute("depth", "0.8");
         innerbox2.setAttribute("rotation", "0 15 0");
+        innerbox2.setAttribute("static-body", "shape: box;");
         this.el.appendChild(innerbox2);
 
 
@@ -252,66 +270,6 @@ document.addEventListener("keyup", function (event) {
         interactkey = false;
     }
 });
-
-const colors = ["#1b1a18", "#26211e", "#3b3331", "#292522", "#3b3530", "#3d3b37", "#2b2726", "#302d27"];
-function tiles(xMin, xMax, zMin, zMax, height = 0) {
-    for (let x = xMin; x < xMax; x++) {
-        for (let z = zMin; z < zMax; z++) {
-            let tile = document.createElement("a-box");
-            tile.setAttribute("position", `${x} ${height + 0.05} ${z}`);
-            tile.setAttribute("rotation", "-90 0 0");
-            tile.setAttribute("width", "0.9");
-            tile.setAttribute("height", "0.9");
-            tile.setAttribute("depth", "0.05");
-            tile.setAttribute("color", colors[Math.floor(Math.random() * colors.length)]);
-            document.querySelector("a-scene").appendChild(tile);
-
-            let undertile = document.createElement("a-box");
-            undertile.setAttribute("position", `${x} ${height} ${z}`);
-            undertile.setAttribute("rotation", "-90 0 0");
-            undertile.setAttribute("width", "1");
-            undertile.setAttribute("height", "1");
-            undertile.setAttribute("depth", "0.05");
-            undertile.setAttribute("color", "#25231d");
-            undertile.setAttribute("static-body", "shape: plane;")
-            document.querySelector("a-scene").appendChild(undertile);
-        }
-    }
-}
-
-const gridColors = ["#343c42", "#424e58"];
-function floortiles(xMin, xMax, zMin, zMax, height = 0) {
-    for (let x = xMin; x < xMax; x++) {
-        for (let z = zMin; z < zMax; z++) {
-            let tile = document.createElement("a-box");
-            tile.setAttribute("position", `${x} ${height} ${z}`);
-            tile.setAttribute("rotation", "-90 0 0");
-            tile.setAttribute("width", "0.9");
-            tile.setAttribute("height", "0.9");
-            tile.setAttribute("depth", "0.025");
-            tile.setAttribute("color", gridColors[Math.abs(x % 2 == z % 2 ? 0 : 1)]);
-            document.querySelector("a-scene").appendChild(tile);
-
-        }
-    }
-}
-
-function ceilingTile(xMin, xMax, zMin, zMax, height = 0) {
-    for (let x = xMin; x < xMax; x++) {
-        for (let z = zMin; z < zMax; z++) {
-
-            let undertile = document.createElement("a-box");
-            undertile.setAttribute("position", `${x} ${height} ${z}`);
-            undertile.setAttribute("rotation", "-90 0 0");
-            undertile.setAttribute("width", "1");
-            undertile.setAttribute("height", "1");
-            undertile.setAttribute("depth", "0.05");
-            undertile.setAttribute("color", "#25231d");
-            undertile.setAttribute("static-body", "shape: plane;")
-            document.querySelector("a-scene").appendChild(undertile);
-        }
-    }
-}
 
 
 
