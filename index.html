@@ -9,7 +9,7 @@
   <body>
     <div id="display" z-index="1" style="position: absolute; top: 10px; left: 10px; color: white; font-size: 18px;"></div>
    
-    <a-scene physics="debug: false; gravity: -1; restitution: 0.05" keyboard-shortcuts="enterVR: false; exitVR: false;">
+    <a-scene physics="debug: false; gravity: -9.8;" keyboard-shortcuts="enterVR: false; exitVR: false;">
 
       <a-assets>
         <img id="grid"  src="grid.jpg"/>
@@ -23,7 +23,7 @@
     <!--FirstFloorCam, position="-8 1.6 -10"-->
 
     <a-entity id="cameraRig"  movement-controls="fly:true; speed: 0.7" position="0 1.6 0">
-    <a-entity camera position="-8 0 -10" kinema-body="radius: 1; enableJumps:true; enableSlopes:false" wasd-controls look-controls="pointerLockEnabled: true" active="true"  id="firstfloor">
+    <a-entity camera position="-8 0 -10" kinema-body="radius: 1;" wasd-controls look-controls="pointerLockEnabled: true" active="true"  id="firstfloor">
       <a-text id="playerpos"
         value="" 
         position="-0.5 0.6 -1" 

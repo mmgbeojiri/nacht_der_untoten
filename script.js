@@ -262,17 +262,21 @@ document.addEventListener("keydown", function (event) {
     
     } else if (event.key === "f" || event.key === "F") {
         interactkey = true;
+    } else if (event.key === "Control") { 
+        camerarig.setAttribute("position", `0 1 0`)
     }
 });
 
 document.addEventListener("keyup", function (event) {
     if (event.key === "f" || event.key === "F") {
         interactkey = false;
+    } else if (event.key === "Control") { 
+        camerarig.setAttribute("position", `0 1.6 0`)
     }
 });
 
 
-
+let camerarig = document.querySelector("#cameraRig")
 let player = document.getElementById("firstfloor");
 let playerPosition = player.getAttribute("position");
 let player_pos_text = document.getElementById("playerpos");
@@ -292,7 +296,8 @@ function updateHud() {
     player_pos_text.setAttribute("value",
         `Position: 
       x:${playerPosition.x.toFixed(2)} y:${playerPosition.y.toFixed(2)} z:${playerPosition.z.toFixed(2)}
-      windowsnearplayer: ${windowsNearPlayer}`
+      windowsnearplayer: ${windowsNearPlayer}
+      velocity: ${JSON.stringify(player.getAttribute("velocity"))}`
 
     );
     requestAnimationFrame(updateHud);

@@ -98,6 +98,7 @@ AFRAME.registerComponent('kinema-body', {
 
     if (!data.enableJumps) body.velocity.set(0, 0, 0);
     body.position.copy(el.getAttribute('position'));
+    
   },
 
   step: (function () {
@@ -105,6 +106,7 @@ AFRAME.registerComponent('kinema-body', {
         normalizedVelocity = new THREE.Vector3(),
         currentSurfaceNormal = new THREE.Vector3(),
         groundNormal = new THREE.Vector3();
+      
 
     return function (t, dt) {
       if (!dt) return;
@@ -173,11 +175,13 @@ AFRAME.registerComponent('kinema-body', {
         // TODO - Why is the 4x scalar necessary.
         // NOTE: Does not work if physics runs on a worker.
         //In below calculation, 100 was 1000.  Allows the camera to drop faster
-        velocity.add(this.system.driver.world.gravity.scale(dt * 4.0 / 100));
+        velocity.add(this.system.driver.world.gravity.scale(4*dt/1000));
       }
 
       body.velocity.copy(velocity);
       this.el.setAttribute('velocity', body.velocity);
+      console.log(velocity)
+
       this.el.setAttribute('position', body.position);
     };
   }()),
