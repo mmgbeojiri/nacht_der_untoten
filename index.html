@@ -3,6 +3,7 @@
     <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
       <script src="kinema.js"></script>
+      <script src="player.js"></script>
 
     
   </head>
@@ -22,8 +23,28 @@
     <a-plane src="#grid" static-body repeat="10 10" position="0 0 0" rotation="-90 0 0" width="100" height="100"></a-plane>
     <!--FirstFloorCam, position="-8 1.6 -10"-->
 
-    <a-entity id="cameraRig"  movement-controls="fly:true; speed: 0.7" position="0 1.6 0">
+    <!-- Castro's Collision
+     <a-entity id="cameraRig"  movement-controls="fly:true; speed: 0.7" position="0 1.6 0">
     <a-entity camera position="-8 0 -10" kinema-body="radius: 1;" wasd-controls look-controls="pointerLockEnabled: true" active="true"  id="firstfloor">
+      <a-text id="playerpos"
+        value="" 
+        position="-0.5 0.6 -1" 
+        scale="0.3 0.3 0.3" 
+        color="#FFFFFF"
+        align="center">
+      </a-text>
+      <a-text value="" id="boardwindow"
+        position="0 0.0 -1" 
+        scale="0.2 0.2 0.2" 
+        color="#FFFFFF"
+        align="center">
+      </a-text>
+      <a-cursor geometry="primitive: circle; radius:0.005"
+            material="color: white; shader: flat"></a-cursor>
+    </a-entity>
+    </a-entity>
+  -->
+    <a-entity camera position="-8 1.6 -10" look-controls="pointerLockEnabled: true" active="true"  id="firstfloor">
       <a-text id="playerpos"
         value="" 
         position="-0.5 0.6 -1" 

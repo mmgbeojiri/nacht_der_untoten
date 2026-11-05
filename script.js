@@ -278,6 +278,11 @@ document.addEventListener("keyup", function (event) {
 
 let camerarig = document.querySelector("#cameraRig")
 let player = document.getElementById("firstfloor");
+
+let scene = document.querySelector("a-scene");
+let activeCamera = "player";
+let actualplayer = new Player("#firstfloor", "player", {x: -8, y: 1.6, z: -10});
+
 let playerPosition = player.getAttribute("position");
 let player_pos_text = document.getElementById("playerpos");
 let board_window_text = document.getElementById("boardwindow");
@@ -293,6 +298,7 @@ function updateBoardText() {
 }
 
 function updateHud() {
+    actualplayer.update();
     player_pos_text.setAttribute("value",
         `Position: 
       x:${playerPosition.x.toFixed(2)} y:${playerPosition.y.toFixed(2)} z:${playerPosition.z.toFixed(2)}
