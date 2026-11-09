@@ -276,17 +276,6 @@ document.addEventListener("keyup", function (event) {
 });
 
 
-let camerarig = document.querySelector("#cameraRig")
-let player = document.getElementById("firstfloor");
-
-let scene = document.querySelector("a-scene");
-let activeCamera = "player";
-let actualplayer = new Player("#firstfloor", "player", {x: -8, y: 1.6, z: -10});
-
-let playerPosition = player.getAttribute("position");
-let player_pos_text = document.getElementById("playerpos");
-let board_window_text = document.getElementById("boardwindow");
-let windowsNearPlayer = 0;
 
 
 function updateBoardText() {
@@ -298,7 +287,6 @@ function updateBoardText() {
 }
 
 function updateHud() {
-    actualplayer.update();
     player_pos_text.setAttribute("value",
         `Position: 
       x:${playerPosition.x.toFixed(2)} y:${playerPosition.y.toFixed(2)} z:${playerPosition.z.toFixed(2)}
@@ -309,10 +297,28 @@ function updateHud() {
     requestAnimationFrame(updateHud);
 }
 
+function loop() {
+        actualplayer.update();
+        requestAnimationFrame(loop);
+    }
 
+
+let camerarig = document.querySelector("#cameraRig")
+let player = document.getElementById("firstfloor");
+let playerPosition = player.getAttribute("position");
+
+let scene = document.querySelector("a-scene");
+let activeCamera = "player";
+let actualplayer;
+
+let player_pos_text = document.getElementById("playerpos");
+let board_window_text = document.getElementById("boardwindow");
+let windowsNearPlayer = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
-//tiles(-15, -1, -13, 10); // Main Room -- front
+
+
+    //tiles(-15, -1, -13, 10); // Main Room -- front
 
 const mainRoomFront = new Tile(-15, -1, -13, 10); // Main Room -- front
 const mainRoomMiddle = new Tile(-14, -1, 10, 13); // Main Room -- middle
@@ -350,8 +356,10 @@ const secondfloorceiling = new Tile(-15, -1, -13, 7, 8, false) //second floor
 const secondfloorceilingstairs = new Tile(-15, -2, -30, -25, 8, false)
 const secondfloorceilinghallway2 = new Tile(-15, 16, -25, -13, 8, false); //hallway
 
-
+actualplayer = new Player("#firstfloor", "player", {x: -8, y: 1.6, z: -10});
+console.log(actualplayer.driver)
 updateHud();
+loop();
 
 }
 )

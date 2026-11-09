@@ -3,13 +3,14 @@ class Player{
     this.name = name;
 	console.log(this.name)
     this.obj = document.querySelector(selector);
-    this.moveStrength = 50;
-    this.jumpStrength = 110;
+    this.moveStrength = 1;
+    this.jumpStrength = 30;
     this.moving = false;
     this.jumping = false;
 	this.grounded = false;
     this.restore = false;
 	this.initialPos = initialPos;
+  this.cameraHeight = 1.6;
 	
     // this.dx = 0; this.dy = 0; this.dz = 0;
     this.pressed = [];
@@ -17,15 +18,17 @@ class Player{
     this.driver = document.createElement("a-sphere");
     this.driver.setAttribute("color","yellow");
     this.driver.setAttribute("dynamic-body",{mass:5, angularDamping: 0.9});
-    this.driver.setAttribute("radius",0.3);
+    this.driver.setAttribute("radius",0.5);
 	this.driver.setAttribute("position", initialPos);
 	
     this.driver.object3D.position.x = this.obj.object3D.position.x;
     this.driver.object3D.position.y = this.obj.object3D.position.y;
     this.driver.object3D.position.z = this.obj.object3D.position.z;
     scene.append(this.driver);
-	
-
+    this.physicsReady = false;
+    this.driver.addEventListener("body-loaded", ()=>{
+      this.physicsReady = true;
+    })
     window.addEventListener("keyup",(e)=>{
 		if(activeCamera == this.name){
 			delete this.pressed[e.key];
@@ -50,14 +53,17 @@ class Player{
   
   update(){
 	  //console.log(this.driver.object3D.position.y)
-	if(this.driver.object3D.position.y <= -75 || this.health <= 0){
+	if(this.driver.object3D.position.y <= -10 || this.health <= 0){
 		this.restore = true;
 		this.resetPosition(this.initialPos);
 		this.health = 100;
 	}else{
+    if (!this.physicsReady){return}
+    console.log(this.driver.body.velocity.y)
 		this.processImpulses();
+
 		this.obj.object3D.position.x = this.driver.object3D.position.x;
-		this.obj.object3D.position.y = this.driver.object3D.position.y + 4;
+		this.obj.object3D.position.y = this.driver.object3D.position.y + this.cameraHeight;
 		this.obj.object3D.position.z = this.driver.object3D.position.z;
 		
 		
@@ -84,8 +90,8 @@ class Player{
     }
 	// front
     if(this.pressed["w"] && !this.pressed["a"] && !this.pressed["d"]){
-	  this.driver.body.velocity.x = 0;
-      this.driver.body.velocity.z = 0;
+	    //this.driver.body.velocity.x = 0;
+      //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI;
       dz = this.moveStrength * Math.cos(theta);
       dx = this.moveStrength * Math.sin(theta);
@@ -124,8 +130,8 @@ class Player{
       this.moving = true;
     }else if(this.pressed["s"] && !this.pressed["a"] && !this.pressed["d"]){
 		//back
-		this.driver.body.velocity.x = 0;
-      this.driver.body.velocity.z = 0;
+		//this.driver.body.velocity.x = 0;
+      //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI;
       dz = this.moveStrength * Math.cos(theta);
       dx = this.moveStrength * Math.sin(theta);
@@ -174,7 +180,6 @@ class Player{
 		this.grounded = true;
 	}
 
-	//console.log(this.driver.body.velocity.y)
 	
   }
   
