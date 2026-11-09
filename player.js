@@ -3,7 +3,7 @@ class Player{
     this.name = name;
 	console.log(this.name)
     this.obj = document.querySelector(selector);
-    this.moveStrength = 1;
+    this.moveStrength = 4;
     this.jumpStrength = 30;
     this.moving = false;
     this.jumping = false;
@@ -81,7 +81,7 @@ class Player{
   }
   processImpulses(){
     let dx = 0, dy = 0, dz = 0, impulse = null, theta = 0;
-//	console.log(this.pressed)
+console.log(this.grounded)
     if(this.pressed[" "] && this.isGrounded()){
       impulse = new CANNON.Vec3(0, this.jumpStrength, 0);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
@@ -100,8 +100,8 @@ class Player{
       this.moving = true;
     }else if(this.pressed["a"] && !this.pressed["w"] && !this.pressed["s"]){
 		//left
-		this.driver.body.velocity.x = 0;
-      this.driver.body.velocity.z = 0;
+		//this.driver.body.velocity.x = 0;
+      //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI + Math.PI/2;
       dz = this.moveStrength * Math.cos(theta);
       dx = this.moveStrength * Math.sin(theta);
@@ -110,7 +110,7 @@ class Player{
       this.moving = true;
     }else if(this.pressed["a"] && this.pressed["s"] ){
 		//back left
-		this.driver.body.velocity.x = 0;
+		//this.driver.body.velocity.x = 0;
       this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y - Math.PI/4;
       dz = this.moveStrength * Math.cos(theta);
@@ -120,8 +120,8 @@ class Player{
       this.moving = true;
 	}else if(this.pressed["d"] && !this.pressed["s"] && !this.pressed["w"]){
 		//right
-		this.driver.body.velocity.x = 0;
-      this.driver.body.velocity.z = 0;
+		//this.driver.body.velocity.x = 0;
+      //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI - Math.PI/2;
       dz = this.moveStrength * Math.cos(theta);
       dx = this.moveStrength * Math.sin(theta);
@@ -140,8 +140,8 @@ class Player{
       this.moving = true;
     }else if(this.pressed["w"] && this.pressed["d"] ){
 		//front right
-		this.driver.body.velocity.x = 0;
-      this.driver.body.velocity.z = 0;
+		//this.driver.body.velocity.x = 0;
+      //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI - Math.PI/4;
       dz = this.moveStrength * Math.cos(theta);
       dx = this.moveStrength * Math.sin(theta);
@@ -150,8 +150,8 @@ class Player{
       this.moving = true;
 	}else if(this.pressed["w"] && this.pressed["a"] ){
 		//front left
-		this.driver.body.velocity.x = 0;
-      this.driver.body.velocity.z = 0;
+		//this.driver.body.velocity.x = 0;
+      //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI + Math.PI/4;
       dz = this.moveStrength * Math.cos(theta);
       dx = this.moveStrength * Math.sin(theta);
@@ -160,8 +160,8 @@ class Player{
       this.moving = true;
 	}else if(this.pressed["d"] && this.pressed["s"] ){
 		//back right
-		this.driver.body.velocity.x = 0;
-      this.driver.body.velocity.z = 0;
+		//this.driver.body.velocity.x = 0;
+      //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI/4;
       dz = this.moveStrength * Math.cos(theta);
       dx = this.moveStrength * Math.sin(theta);
