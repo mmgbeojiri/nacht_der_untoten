@@ -10,7 +10,8 @@ class Player{
 	this.grounded = false;
     this.restore = false;
 	this.initialPos = initialPos;
-  this.cameraHeight = 1.6;
+  this.cameraHeight = 1;
+  this.targetCameraHeight = 1;
 	
     // this.dx = 0; this.dy = 0; this.dz = 0;
     this.pressed = [];
@@ -42,7 +43,7 @@ class Player{
 		if(activeCamera == this.name){
 			this.pressed[e.key] = true; 
 		}
-      //console.log(this.pressed)
+      console.log(this.pressed)
     })
 	
 	
@@ -65,6 +66,7 @@ class Player{
 		this.obj.object3D.position.y = this.driver.object3D.position.y + this.cameraHeight;
 		this.obj.object3D.position.z = this.driver.object3D.position.z;
 		
+    this.updateCameraHeight();
 		
 		if(!this.moving){
 		  if(Math.abs(this.driver.body.velocity.x) > 0.01 ||  Math.abs(this.driver.body.velocity.z) > 0.01 ){
@@ -78,6 +80,16 @@ class Player{
 
   
   }
+
+  updateCameraHeight() {
+    if (this.pressed["Control"]) {
+      this.targetCameraHeight = 0.5; // Crouching height
+    } else {
+      this.targetCameraHeight = 1; // Standing height
+    }
+    this.cameraHeight += (this.targetCameraHeight - this.cameraHeight) / 3;
+  }
+
   processImpulses(){
     let dx = 0, dy = 0, dz = 0, impulse = null, theta = 0;
     
@@ -208,6 +220,17 @@ class Player{
 		this.driver.removeAttribute("dynamic-body");
 		this.driver.setAttribute("position",{x:x, y:y, z:z});
 		this.driver.setAttribute("dynamic-body",{mass:5});
+  }
+
+  getPosition(){
+    return {x: this.driver.object3D.position.x, y: this.driver.object3D.position.y + this.cameraHeight, z: this.driver.object3D.position.z};
+  }
+  getVelocity(){
+      if (this.driver.body && this.driver.body.velocity) {
+        return this.driver.body.velocity;
+      } else {
+        return {x: 0, y: 0, z: 0};
+      }
   }
   
   isGrounded() {

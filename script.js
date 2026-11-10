@@ -289,8 +289,9 @@ function updateBoardText() {
 function updateHud() {
     player_pos_text.setAttribute("value",
         `Position: 
-      x:${playerPosition.x.toFixed(2)} y:${playerPosition.y.toFixed(2)} z:${playerPosition.z.toFixed(2)}
-      windowsnearplayer: ${windowsNearPlayer}`
+      x:${actualplayer.getPosition().x.toFixed(2)} y:${actualplayer.getPosition().y.toFixed(2)} z:${actualplayer.getPosition().z.toFixed(2)}
+      windowsnearplayer: ${windowsNearPlayer}
+      velocity: ${actualplayer.getVelocity().x.toFixed(2)}, ${actualplayer.getVelocity().y.toFixed(2)}, ${actualplayer.getVelocity().z.toFixed(2)}`
       
     );
     requestAnimationFrame(updateHud);
