@@ -1,7 +1,7 @@
 class Player{
   constructor(selector, name, initialPos){
     this.name = name;
-	console.log(this.name)
+	//console.log(this.name)
     this.obj = document.querySelector(selector);
     this.moveStrength = 4;
     this.jumpStrength = 10;
@@ -47,7 +47,7 @@ class Player{
 		if(activeCamera == this.name){
 			this.pressed[e.key] = true; 
 		}
-      console.log(this.pressed)
+      //console.log(this.pressed)
     })
 	
 	
@@ -99,7 +99,7 @@ class Player{
     
     
     if(this.pressed[" "] && this.isGrounded()){
-      console.log("jumping")
+      //console.log("jumping")
     //if(this.pressed[" "]){
       impulse = new CANNON.Vec3(0, this.jumpStrength, 0);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
@@ -203,7 +203,7 @@ class Player{
   
   resetPosition(position){	  
 	if(this.restore){
-		console.log("help");
+		//console.log("help");
 		this.driver.body.velocity.x = 0;
 		this.driver.body.velocity.y = 0;
         this.driver.body.velocity.z = 0;
@@ -247,7 +247,7 @@ class Player{
 
 		if (intersects.length > 0) {
 			let distance = intersects[0].distance;
-      console.log("Distance to ground:", distance);
+      //console.log("Distance to ground:", distance);
 			return distance <= 0.7;
 		}
 		return false;
