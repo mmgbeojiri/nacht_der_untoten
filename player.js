@@ -12,6 +12,10 @@ class Player{
 	this.initialPos = initialPos;
   this.cameraHeight = 1;
   this.targetCameraHeight = 1;
+
+  this.dx = 0;
+  this.dy = 0;
+  this.dz = 0;
 	
     // this.dx = 0; this.dy = 0; this.dz = 0;
     this.pressed = [];
@@ -91,7 +95,7 @@ class Player{
   }
 
   processImpulses(){
-    let dx = 0, dy = 0, dz = 0, impulse = null, theta = 0;
+    let impulse = null, theta = 0;
     
     
     if(this.pressed[" "] && this.isGrounded()){
@@ -107,9 +111,9 @@ class Player{
 	    //this.driver.body.velocity.x = 0;
       //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI;
-      dz = this.moveStrength * Math.cos(theta);
-      dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(dx, 0, dz);
+      this.dz = this.moveStrength * Math.cos(theta);
+      this.dx = this.moveStrength * Math.sin(theta);
+      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
       this.moving = true;
     }else if(this.pressed["a"] && !this.pressed["w"] && !this.pressed["s"]){
@@ -117,9 +121,9 @@ class Player{
 		//this.driver.body.velocity.x = 0;
       //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI + Math.PI/2;
-      dz = this.moveStrength * Math.cos(theta);
-      dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(dx, 0, dz);
+      this.dz = this.moveStrength * Math.cos(theta);
+      this.dx = this.moveStrength * Math.sin(theta);
+      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
       this.moving = true;
     }else if(this.pressed["a"] && this.pressed["s"] ){
@@ -127,9 +131,9 @@ class Player{
 		//this.driver.body.velocity.x = 0;
       this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y - Math.PI/4;
-      dz = this.moveStrength * Math.cos(theta);
-      dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(dx, 0, dz);
+      this.dz = this.moveStrength * Math.cos(theta);
+      this.dx = this.moveStrength * Math.sin(theta);
+      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
       this.moving = true;
 	}else if(this.pressed["d"] && !this.pressed["s"] && !this.pressed["w"]){
@@ -137,9 +141,9 @@ class Player{
 		//this.driver.body.velocity.x = 0;
       //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI - Math.PI/2;
-      dz = this.moveStrength * Math.cos(theta);
-      dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(dx, 0, dz);
+      this.dz = this.moveStrength * Math.cos(theta);
+      this.dx = this.moveStrength * Math.sin(theta);
+      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
       this.moving = true;
     }else if(this.pressed["s"] && !this.pressed["a"] && !this.pressed["d"]){
@@ -147,9 +151,9 @@ class Player{
 		//this.driver.body.velocity.x = 0;
       //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI;
-      dz = this.moveStrength * Math.cos(theta);
-      dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(-dx, 0, -dz);
+      this.dz = this.moveStrength * Math.cos(theta);
+      this.dx = this.moveStrength * Math.sin(theta);
+      impulse = new CANNON.Vec3(-this.dx, 0, -this.dz);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
       this.moving = true;
     }else if(this.pressed["w"] && this.pressed["d"] ){
@@ -157,9 +161,9 @@ class Player{
 		//this.driver.body.velocity.x = 0;
       //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI - Math.PI/4;
-      dz = this.moveStrength * Math.cos(theta);
-      dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(dx, 0, dz);
+      this.dz = this.moveStrength * Math.cos(theta);
+      this.dx = this.moveStrength * Math.sin(theta);
+      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
       this.moving = true;
 	}else if(this.pressed["w"] && this.pressed["a"] ){
@@ -167,9 +171,9 @@ class Player{
 		//this.driver.body.velocity.x = 0;
       //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI + Math.PI/4;
-      dz = this.moveStrength * Math.cos(theta);
-      dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(dx, 0, dz);
+      this.dz = this.moveStrength * Math.cos(theta);
+      this.dx = this.moveStrength * Math.sin(theta);
+      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
       this.moving = true;
 	}else if(this.pressed["d"] && this.pressed["s"] ){
@@ -177,9 +181,9 @@ class Player{
 		//this.driver.body.velocity.x = 0;
       //this.driver.body.velocity.z = 0;
       theta = this.obj.object3D.rotation.y + Math.PI/4;
-      dz = this.moveStrength * Math.cos(theta);
-      dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(dx, 0, dz);
+      this.dz = this.moveStrength * Math.cos(theta);
+      this.dx = this.moveStrength * Math.sin(theta);
+      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
       this.moving = true;
 	}

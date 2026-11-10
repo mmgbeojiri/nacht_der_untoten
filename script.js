@@ -76,7 +76,7 @@ AFRAME.registerComponent("window", {
     tick: function (time, timeDelta) {
         this.canBeBoarded = this.data.boards < max_boards;
 
-        if (this.el.getAttribute("position").distanceTo(playerPosition) < 5 && Math.abs(this.el.getAttribute("position").y- playerPosition.y) < this.data.height) {
+        if (this.el.getAttribute("position").distanceTo(actualplayer.getPosition()) < 5 && Math.abs(this.el.getAttribute("position").y- actualplayer.getPosition().y) < this.data.height) {
             if (!this.isPlayerNearThisWindow) {
                 
                 if (this.canBeBoarded) { // if player is near window and its not full
@@ -262,16 +262,12 @@ document.addEventListener("keydown", function (event) {
     
     } else if (event.key === "f" || event.key === "F") {
         interactkey = true;
-    } else if (event.key === "Control") { 
-        camerarig.setAttribute("position", `0 1 0`)
-    }
+    } 
 });
 
 document.addEventListener("keyup", function (event) {
     if (event.key === "f" || event.key === "F") {
         interactkey = false;
-    } else if (event.key === "Control") { 
-        camerarig.setAttribute("position", `0 1.6 0`)
     }
 });
 
@@ -305,11 +301,11 @@ function loop() {
 
 let camerarig = document.querySelector("#cameraRig")
 let player = document.getElementById("firstfloor");
-let playerPosition = player.getAttribute("position");
-
+//let playerPosition = player.getAttribute("position");
 let scene = document.querySelector("a-scene");
 let activeCamera = "player";
 let actualplayer;
+let playerPosition = {x: 0, y: 0, z: 0};
 
 let player_pos_text = document.getElementById("playerpos");
 let board_window_text = document.getElementById("boardwindow");
@@ -357,6 +353,8 @@ const secondfloorceilingstairs = new Tile(-15, -2, -30, -25, 8, false)
 const secondfloorceilinghallway2 = new Tile(-15, 16, -25, -13, 8, false); //hallway
 
 actualplayer = new Player("#firstfloor", "player", {x: -8, y: 1.6, z: -10});
+playerPosition = actualplayer.getPosition();
+
 console.log(actualplayer.driver)
 updateHud();
 loop();
