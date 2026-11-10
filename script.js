@@ -290,9 +290,8 @@ function updateHud() {
     player_pos_text.setAttribute("value",
         `Position: 
       x:${playerPosition.x.toFixed(2)} y:${playerPosition.y.toFixed(2)} z:${playerPosition.z.toFixed(2)}
-      windowsnearplayer: ${windowsNearPlayer}
-      velocity: ${JSON.stringify(player.getAttribute("velocity"))}`
-
+      windowsnearplayer: ${windowsNearPlayer}`
+      
     );
     requestAnimationFrame(updateHud);
 }

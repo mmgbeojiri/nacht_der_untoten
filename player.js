@@ -4,7 +4,7 @@ class Player{
 	console.log(this.name)
     this.obj = document.querySelector(selector);
     this.moveStrength = 4;
-    this.jumpStrength = 30;
+    this.jumpStrength = 10;
     this.moving = false;
     this.jumping = false;
 	this.grounded = false;
@@ -59,7 +59,6 @@ class Player{
 		this.health = 100;
 	}else{
     if (!this.physicsReady){return}
-    console.log(this.driver.body.velocity.y)
 		this.processImpulses();
 
 		this.obj.object3D.position.x = this.driver.object3D.position.x;
@@ -81,8 +80,11 @@ class Player{
   }
   processImpulses(){
     let dx = 0, dy = 0, dz = 0, impulse = null, theta = 0;
-console.log(this.grounded)
+    
+    
     if(this.pressed[" "] && this.isGrounded()){
+      console.log("jumping")
+    //if(this.pressed[" "]){
       impulse = new CANNON.Vec3(0, this.jumpStrength, 0);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
       this.jumping = true;
@@ -174,7 +176,7 @@ console.log(this.grounded)
       this.jumping = false;
 	  //console.log("landed");
     }
-	if (Math.abs(this.driver.body.velocity.y) > 0.0001) {
+	if (Math.abs(this.driver.body.velocity.y) > 0.01) {
 		this.grounded = false;
     }else{
 		this.grounded = true;
@@ -218,7 +220,8 @@ console.log(this.grounded)
 
 		if (intersects.length > 0) {
 			let distance = intersects[0].distance;
-			return distance <= 0.35;
+      console.log("Distance to ground:", distance);
+			return distance <= 0.7;
 		}
 		return false;
 	}
