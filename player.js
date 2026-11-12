@@ -12,7 +12,7 @@ class Player{
 	this.initialPos = initialPos;
   this.cameraHeight = 1;
   this.targetCameraHeight = 1;
-  this.deaccelerationFactor = 0.05; // Number between 0 and 1, 1 is no friction and 0 is all friction
+  this.deaccelerationFactor = 0.5; // Number between 0 and 1, 1 is no friction and 0 is all friction
 
   this.dx = 0;
   this.dy = 0;
@@ -110,88 +110,7 @@ class Player{
       this.jumping = true;
 	  this.grounded = false;
     }
-	// front
-  /*
-    if(this.pressed["w"] && !this.pressed["a"] && !this.pressed["d"]){
-	    //this.driver.body.velocity.x = 0;
-      //this.driver.body.velocity.z = 0;
-      theta = this.obj.object3D.rotation.y + Math.PI;
-      this.dz = this.moveStrength * Math.cos(theta);
-      this.dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
-      this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
-      this.moving = true;
-    }else if(this.pressed["a"] && !this.pressed["w"] && !this.pressed["s"]){
-		//left
-		//this.driver.body.velocity.x = 0;
-      //this.driver.body.velocity.z = 0;
-      theta = this.obj.object3D.rotation.y + Math.PI + Math.PI/2;
-      this.dz = this.moveStrength * Math.cos(theta);
-      this.dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
-      this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
-      this.moving = true;
-    }else if(this.pressed["a"] && this.pressed["s"] ){
-		//back left
-		//this.driver.body.velocity.x = 0;
-      this.driver.body.velocity.z = 0;
-      theta = this.obj.object3D.rotation.y - Math.PI/4;
-      this.dz = this.moveStrength * Math.cos(theta);
-      this.dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
-      this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
-      this.moving = true;
-	}else if(this.pressed["d"] && !this.pressed["s"] && !this.pressed["w"]){
-		//right
-		//this.driver.body.velocity.x = 0;
-      //this.driver.body.velocity.z = 0;
-      theta = this.obj.object3D.rotation.y + Math.PI - Math.PI/2;
-      this.dz = this.moveStrength * Math.cos(theta);
-      this.dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
-      this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
-      this.moving = true;
-    }else if(this.pressed["s"] && !this.pressed["a"] && !this.pressed["d"]){
-		//back
-		//this.driver.body.velocity.x = 0;
-      //this.driver.body.velocity.z = 0;
-      theta = this.obj.object3D.rotation.y + Math.PI;
-      this.dz = this.moveStrength * Math.cos(theta);
-      this.dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(-this.dx, 0, -this.dz);
-      this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
-      this.moving = true;
-    }else if(this.pressed["w"] && this.pressed["d"] ){
-		//front right
-		//this.driver.body.velocity.x = 0;
-      //this.driver.body.velocity.z = 0;
-      theta = this.obj.object3D.rotation.y + Math.PI - Math.PI/4;
-      this.dz = this.moveStrength * Math.cos(theta);
-      this.dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
-      this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
-      this.moving = true;
-	}else if(this.pressed["w"] && this.pressed["a"] ){
-		//front left
-		//this.driver.body.velocity.x = 0;
-      //this.driver.body.velocity.z = 0;
-      theta = this.obj.object3D.rotation.y + Math.PI + Math.PI/4;
-      this.dz = this.moveStrength * Math.cos(theta);
-      this.dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
-      this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
-      this.moving = true;
-	}else if(this.pressed["d"] && this.pressed["s"] ){
-		//back right
-		//this.driver.body.velocity.x = 0;
-      //this.driver.body.velocity.z = 0;
-      theta = this.obj.object3D.rotation.y + Math.PI/4;
-      this.dz = this.moveStrength * Math.cos(theta);
-      this.dx = this.moveStrength * Math.sin(theta);
-      impulse = new CANNON.Vec3(this.dx, 0, this.dz);
-      this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
-      this.moving = true;
-	}*/
+	
   let dKey, aKey, wKey, sKey = 0;
   this.theta = this.obj.object3D.rotation.y;
   this.pressed["d"] ? dKey = 1 : dKey = 0;
