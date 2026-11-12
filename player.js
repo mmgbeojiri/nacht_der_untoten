@@ -3,7 +3,7 @@ class Player{
     this.name = name;
 	//console.log(this.name)
     this.obj = document.querySelector(selector);
-    this.moveStrength = 4;
+    this.moveStrength = 2;
     this.jumpStrength = 10;
     this.moving = false;
     this.jumping = false;
@@ -12,6 +12,7 @@ class Player{
 	this.initialPos = initialPos;
   this.cameraHeight = 1;
   this.targetCameraHeight = 1;
+  this.deaccelerationFactor = 0.05; // Number between 0 and 1, 1 is no friction and 0 is all friction
 
   this.dx = 0;
   this.dy = 0;
@@ -73,8 +74,11 @@ class Player{
     this.updateCameraHeight();
 		
 		if(!this.moving){
-		  if(Math.abs(this.driver.body.velocity.x) > 0.01 ||  Math.abs(this.driver.body.velocity.z) > 0.01 ){
-			this.driver.body.velocity.x = 0;
+		  if(Math.abs(this.driver.body.velocity.x) > 0.01){
+
+        this.driver.body.velocity.x = 0;
+      } 
+      if( Math.abs(this.driver.body.velocity.z) > 0.01 ){
 			this.driver.body.velocity.z = 0;
 		  }
 		}
@@ -107,6 +111,7 @@ class Player{
 	  this.grounded = false;
     }
 	// front
+  /*
     if(this.pressed["w"] && !this.pressed["a"] && !this.pressed["d"]){
 	    //this.driver.body.velocity.x = 0;
       //this.driver.body.velocity.z = 0;
@@ -186,7 +191,34 @@ class Player{
       impulse = new CANNON.Vec3(this.dx, 0, this.dz);
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
       this.moving = true;
-	}
+	}*/
+  let dKey, aKey, wKey, sKey = 0;
+  this.theta = this.obj.object3D.rotation.y;
+  this.pressed["d"] ? dKey = 1 : dKey = 0;
+  this.pressed["a"] ? aKey = 1 : aKey = 0;
+  this.pressed["w"] ? wKey = 1 : wKey = 0;
+  this.pressed["s"] ? sKey = 1 : sKey = 0;
+  let strafe = (dKey - aKey) * this.moveStrength;
+  let forward = (sKey - wKey) * this.moveStrength;
+  if (!this.dx == 0 || !this.dz == 0) {
+    this.moving = true;
+  }
+  
+  this.dx += strafe;
+  this.dz += forward;
+  impulse = new CANNON.Vec3((this.dx * Math.cos(this.theta)) + (this.dz * Math.sin(this.theta)), 0, (this.dz * Math.cos(this.theta)) - (this.dx * Math.sin(this.theta)));
+
+  this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
+
+  //this.driver.body.velocity.x;
+  //this.driver.body.velocity.z;
+
+
+  console.log(`dx: ${this.dx.toFixed(2)}, dz: ${this.dz.toFixed(2)}, strafe: ${strafe}, forward: ${forward}, x_vel: ${this.dx * Math.cos(this.theta).toFixed(2)}`);
+  
+  this.dx *= this.deaccelerationFactor;
+  this.dz *= this.deaccelerationFactor;
+
 
     if (Math.abs(this.driver.body.velocity.y) < 0.0001) {
       this.jumping = false;
