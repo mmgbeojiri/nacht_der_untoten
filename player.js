@@ -3,7 +3,7 @@ class Player{
     this.name = name;
 	//console.log(this.name)
     this.obj = document.querySelector(selector);
-    this.moveStrength = 2;
+    this.moveStrength = 1;
     this.jumpStrength = 10;
     this.moving = false;
     this.jumping = false;
@@ -12,7 +12,7 @@ class Player{
 	this.initialPos = initialPos;
   this.cameraHeight = 1;
   this.targetCameraHeight = 1;
-  this.deaccelerationFactor = 0.9; // Number between 0 and 1, 1 is no friction and 0 is all friction
+  this.deaccelerationFactor = 0.5; // Number between 0 and 1, 1 is no friction and 0 is all friction
 
   this.dx = 0;
   this.dy = 0;
@@ -127,10 +127,10 @@ class Player{
   this.dz += forward;
   impulse = new CANNON.Vec3((this.dx * Math.cos(this.theta)) + (this.dz * Math.sin(this.theta)), 0, (this.dz * Math.cos(this.theta)) - (this.dx * Math.sin(this.theta)));
 
-  this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
+  //this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0)); // this line is commented out because it provides its own friction value
 
-  //this.driver.body.velocity.x = impulse.x;
-  //this.driver.body.velocity.z = impulse.z;
+  this.driver.body.velocity.x += impulse.x;
+  this.driver.body.velocity.z += impulse.z;
 
 
   console.log(`dx: ${this.dx.toFixed(2)}, dz: ${this.dz.toFixed(2)}, strafe: ${strafe}, forward: ${forward}, x_vel: ${this.dx * Math.cos(this.theta).toFixed(2)}`);
