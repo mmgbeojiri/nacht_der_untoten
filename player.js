@@ -12,7 +12,7 @@ class Player{
 	this.initialPos = initialPos;
   this.cameraHeight = 1;
   this.targetCameraHeight = 1;
-  this.deaccelerationFactor = 0.5; // Number between 0 and 1, 1 is no friction and 0 is all friction
+  this.deaccelerationFactor = 0.9; // Number between 0 and 1, 1 is no friction and 0 is all friction
 
   this.dx = 0;
   this.dy = 0;
@@ -129,8 +129,8 @@ class Player{
 
   this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
 
-  //this.driver.body.velocity.x;
-  //this.driver.body.velocity.z;
+  //this.driver.body.velocity.x = impulse.x;
+  //this.driver.body.velocity.z = impulse.z;
 
 
   console.log(`dx: ${this.dx.toFixed(2)}, dz: ${this.dz.toFixed(2)}, strafe: ${strafe}, forward: ${forward}, x_vel: ${this.dx * Math.cos(this.theta).toFixed(2)}`);
