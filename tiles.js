@@ -3,6 +3,7 @@ class Tile {
     constructor(xMin, xMax, zMin, zMax, height = 0, abovetile = true) {
         const colors = ["#1b1a18", "#26211e", "#3b3331", "#292522", "#3b3530", "#3d3b37", "#2b2726", "#302d27"];
         if (abovetile) {
+            
             for (let x = xMin; x < xMax; x++) {
                 for (let z = zMin; z < zMax; z++) {
                     let tile = document.createElement("a-box");
@@ -12,12 +13,23 @@ class Tile {
                     tile.setAttribute("height", "0.9");
                     tile.setAttribute("depth", "0.05");
                     tile.setAttribute("color", colors[Math.floor(Math.random() * colors.length)]);
-                    document.querySelector("a-scene").appendChild(tile);
+                    scene.appendChild(tile);
                 }
             }
         }
 
-        for (let x = xMin; x < xMax; x++) {
+
+        let undertile = document.createElement("a-box");
+        undertile.setAttribute("position", `${((xMin + xMax) / 2) - 0.5} ${height} ${((zMin + zMax) / 2) - 0.5}`);
+        undertile.setAttribute("rotation", "-90 0 0");
+        undertile.setAttribute("width", `${xMax - xMin}`);
+        undertile.setAttribute("height", `${zMax - zMin}`);
+        undertile.setAttribute("depth", "0.05");
+        undertile.setAttribute("color", "#25231d");
+        undertile.setAttribute("static-body", "shape: plane;")
+        scene.appendChild(undertile);
+
+        /*for (let x = xMin; x < xMax; x++) {
             for (let z = zMin; z < zMax; z++) {
                 let undertile = document.createElement("a-box");
                 undertile.setAttribute("position", `${x} ${height} ${z}`);
@@ -29,6 +41,6 @@ class Tile {
                 undertile.setAttribute("static-body", "shape: plane;")
                 document.querySelector("a-scene").appendChild(undertile);
             }
-        }
+        }*/
     }
 }

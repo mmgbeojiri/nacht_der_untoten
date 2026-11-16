@@ -14,6 +14,9 @@ class Player{
   this.targetCameraHeight = 1;
   this.deaccelerationFactor = 0.5; // Number between 0 and 1, 1 is no friction and 0 is all friction
 
+  this.raycaster = new THREE.Raycaster();
+  this.raycaster_direction = new THREE.Vector3(0, -1, 0);
+
   this.dx = 0;
   this.dy = 0;
   this.dz = 0;
@@ -133,7 +136,7 @@ class Player{
   this.driver.body.velocity.z += impulse.z;
 
 
-  console.log(`dx: ${this.dx.toFixed(2)}, dz: ${this.dz.toFixed(2)}, strafe: ${strafe}, forward: ${forward}, x_vel: ${this.dx * Math.cos(this.theta).toFixed(2)}`);
+  //console.log(`dx: ${this.dx.toFixed(2)}, dz: ${this.dz.toFixed(2)}, strafe: ${strafe}, forward: ${forward}, x_vel: ${this.dx * Math.cos(this.theta).toFixed(2)} grounded: ${this.isGrounded()}`);
   
   this.dx *= this.deaccelerationFactor;
   this.dz *= this.deaccelerationFactor;
@@ -189,17 +192,19 @@ class Player{
   }
   
   isGrounded() {
-		let raycaster = new THREE.Raycaster();
 		let origin = this.driver.object3D.position.clone();
 		let direction = new THREE.Vector3(0, -1, 0);
-		raycaster.set(origin, direction);
+		this.raycaster.set(origin, direction);
+    this.raycaster.near = 0.5;
 
-		let intersects = raycaster.intersectObject(scene.object3D, true);
+		let intersects = this.raycaster.intersectObject(scene.object3D, true);
+
 
 		if (intersects.length > 0) {
-			let distance = intersects[0].distance;
-      //console.log("Distance to ground:", distance);
+      let distance = intersects[0].distance;
+      console.log("Distance to ground:", distance);
 			return distance <= 0.7;
+
 		}
 		return false;
 	}

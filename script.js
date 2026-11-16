@@ -310,10 +310,9 @@ let playerPosition = {x: 0, y: 0, z: 0};
 let player_pos_text = document.getElementById("playerpos");
 let board_window_text = document.getElementById("boardwindow");
 let windowsNearPlayer = 0;
-
 document.addEventListener("DOMContentLoaded", function () {
 
-
+scene = document.querySelector("a-scene")
     //tiles(-15, -1, -13, 10); // Main Room -- front
 
 const mainRoomFront = new Tile(-15, -1, -13, 10); // Main Room -- front
