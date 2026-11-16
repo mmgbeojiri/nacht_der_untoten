@@ -3,7 +3,7 @@ class Player{
     this.name = name;
 	//console.log(this.name)
     this.obj = document.querySelector(selector);
-    this.moveStrength = 1;
+    this.moveStrength = 0.5;
     this.jumpStrength = 10;
     this.moving = false;
     this.jumping = false;
