@@ -193,8 +193,8 @@ class Player{
   
   isGrounded() {
 		let origin = this.driver.object3D.position.clone();
-		let direction = new THREE.Vector3(0, -1, 0);
-		this.raycaster.set(origin, direction);
+    console.log("Origin:", origin);
+		this.raycaster.set(origin, this.raycaster_direction);
     this.raycaster.near = 0.5;
 
 		let intersects = this.raycaster.intersectObject(scene.object3D, true);
