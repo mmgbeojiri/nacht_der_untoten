@@ -3,17 +3,30 @@ class Player{
     this.name = name;
 	//console.log(this.name)
     this.obj = document.querySelector(selector);
-    this.moveStrength = 1;
+
+    this.walkStrength = 1;
+    this.sprintStrength = 2;
+    this.crouchStrength = 0.5;
+    this.proneStrength = 0.1;
+
+    this.moveStrength = this.walkStrength;
     this.jumpStrength = 5;
+
     this.moving = false;
     this.jumping = false;
+
 	this.grounded = false;
-    this.restore = false;
-	this.initialPos = initialPos;
-  this.cameraHeight = 1;
+  this.proning = false;
+
+ this.cameraHeight = 1;
   this.targetCameraHeight = 1;
+  
   this.deaccelerationFactor = 0.9; // Number between 0 and 1, 1 is no friction and 0 is all friction
 
+
+    this.restore = false;
+	this.initialPos = initialPos;
+ 
   this.raycaster = new THREE.Raycaster();
   this.raycaster_direction = new THREE.Vector3(0, -1, 0);
 
@@ -26,6 +39,7 @@ class Player{
 
     this.driver = document.createElement("a-sphere");
     this.driver.setAttribute("color","yellow");
+    this.driver.setAttribute("opacity",0.1);
     this.driver.setAttribute("dynamic-body",{mass:5, angularDamping: 0.9});
     this.driver.setAttribute("radius",0.5);
 	this.driver.setAttribute("position", initialPos);
@@ -50,7 +64,13 @@ class Player{
     window.addEventListener("keydown",(e)=>{
 		if(activeCamera == this.name){
 			this.pressed[e.key] = true; 
+
+      if (this.pressed["c"]) {
+        this.proning = !this.proning; // Toggle proning state
+      }
 		}
+
+
       //console.log(this.pressed)
     })
 	
@@ -93,9 +113,13 @@ class Player{
   }
 
   updateCameraHeight() {
-    if (this.pressed["Control"]) {
+    if (this.proning) {
+      this.targetCameraHeight = 0.2; // Proning height
+    } else
+    if (this.pressed["Control"] || this.pressed["Alt"]) {
       this.targetCameraHeight = 0.5; // Crouching height
     } else {
+
       this.targetCameraHeight = 1; // Standing height
     }
     this.cameraHeight += (this.targetCameraHeight - this.cameraHeight) / 3;
@@ -120,6 +144,17 @@ class Player{
   this.pressed["a"] ? aKey = 1 : aKey = 0;
   this.pressed["w"] ? wKey = 1 : wKey = 0;
   this.pressed["s"] ? sKey = 1 : sKey = 0;
+  this.pressed["Shift"] ? this.moveStrength = this.sprintStrength : this.moveStrength = this.walkStrength;
+  if (this.pressed["Control"] || this.pressed["Alt"]) {
+    this.moveStrength = this.crouchStrength;
+  }
+   // Toggle proning state
+    if (this.proning) {
+      this.moveStrength = this.proneStrength;
+    }
+  
+  
+
   let strafe = (dKey - aKey) * this.moveStrength;
   let forward = (sKey - wKey) * this.moveStrength;
   if (!this.dx == 0 || !this.dz == 0) {
@@ -138,8 +173,9 @@ class Player{
 
   //console.log(`dx: ${this.dx.toFixed(2)}, dz: ${this.dz.toFixed(2)}, strafe: ${strafe}, forward: ${forward}, x_vel: ${this.dx * Math.cos(this.theta).toFixed(2)} grounded: ${this.isGrounded()}`);
   
-  this.dx *= this.deaccelerationFactor;
-  this.dz *= this.deaccelerationFactor;
+    this.dx *= this.deaccelerationFactor;
+    this.dz *= this.deaccelerationFactor;
+
 
 
     if (Math.abs(this.driver.body.velocity.y) < 0.0001) {
@@ -205,7 +241,6 @@ class Player{
   isGrounded() {
 		let origin = this.driver.object3D.position.clone();
 		this.raycaster.set(origin, this.raycaster_direction);
-    console.log("Origin:", origin, "Direction:", this.raycaster_direction);
     this.raycaster.near = 0.5;
 
 		let intersects = this.raycaster.intersectObject(scene.object3D, true);
@@ -213,7 +248,6 @@ class Player{
 
 		if (intersects.length > 0) {
       let distance = this.getFirstFarElement(intersects, this.raycaster.near);
-      console.log("Distance to ground:", distance);
 			return distance <= 0.7;
 
 		}
