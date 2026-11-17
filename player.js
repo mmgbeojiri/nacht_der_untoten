@@ -145,8 +145,13 @@ class Player{
   this.pressed["w"] ? wKey = 1 : wKey = 0;
   this.pressed["s"] ? sKey = 1 : sKey = 0;
   this.pressed["Shift"] ? this.moveStrength = this.sprintStrength : this.moveStrength = this.walkStrength;
+  this.deaccelerationFactor = 0.9; // Normal friction
   if (this.pressed["Control"] || this.pressed["Alt"]) {
     this.moveStrength = this.crouchStrength;
+    if (Math.abs(this.dx) > 1 || Math.abs(this.dz) > 1) {
+      console.log("sliding!")
+      this.deaccelerationFactor = 0.99; // Sliding friction
+    }
   }
    // Toggle proning state
     if (this.proning) {
