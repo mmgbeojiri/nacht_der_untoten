@@ -191,17 +191,28 @@ class Player{
       }
   }
   
+  getFirstFarElement(array, threshold) { 
+    // returns the first element's distance in array with distance more than threshold.
+    // reason why this exists is because raycaster returns like 8 elements where element is this.raycaster.near and its weird
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].distance > threshold) {
+        return array[i].distance;
+      }
+    }
+    return threshold;
+  }
+
   isGrounded() {
 		let origin = this.driver.object3D.position.clone();
-    console.log("Origin:", origin);
 		this.raycaster.set(origin, this.raycaster_direction);
+    console.log("Origin:", origin, "Direction:", this.raycaster_direction);
     this.raycaster.near = 0.5;
 
 		let intersects = this.raycaster.intersectObject(scene.object3D, true);
 
 
 		if (intersects.length > 0) {
-      let distance = intersects[0].distance;
+      let distance = this.getFirstFarElement(intersects, this.raycaster.near);
       console.log("Distance to ground:", distance);
 			return distance <= 0.7;
 
