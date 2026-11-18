@@ -68,6 +68,17 @@ class Player{
       if (this.pressed["c"]) {
         this.proning = !this.proning; // Toggle proning state
       }
+
+      if(e.key == "Control" || e.key == "Alt"){
+        if (Math.abs(this.dx) > 1 || Math.abs(this.dz) > 1) {
+          console.log("sliding!")
+          this.deaccelerationFactor = 0.99; // Sliding friction
+           /* let impulse = new CANNON.Vec3((5 * Math.cos(this.theta)) + (this.dz * Math.sin(this.theta)), 0, (this.dz * Math.cos(this.theta)) - (5* Math.sin(this.theta)));
+
+          this.driver.body.applyImpulse(impulse, new CANNON.Vec3(5, 0, 0)); // this line is commented out because it provides its own friction value*/
+        }
+      }
+
 		}
 
 
@@ -148,10 +159,7 @@ class Player{
   this.deaccelerationFactor = 0.9; // Normal friction
   if (this.pressed["Control"] || this.pressed["Alt"]) {
     this.moveStrength = this.crouchStrength;
-    if (Math.abs(this.dx) > 1 || Math.abs(this.dz) > 1) {
-      console.log("sliding!")
-      this.deaccelerationFactor = 0.99; // Sliding friction
-    }
+    
   }
    // Toggle proning state
     if (this.proning) {
