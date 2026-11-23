@@ -17,6 +17,7 @@ class Player{
 
 	this.grounded = false;
   this.proning = false;
+  this.sprinting = false;
 
  this.cameraHeight = 1;
   this.targetCameraHeight = 1;
@@ -67,9 +68,15 @@ class Player{
 
       if (this.pressed["c"]) {
         this.proning = !this.proning; // Toggle proning state
+        console.log(this.sprinting)
+        if (this.sprinting) {
+          console.log("dolphin dive")
+        }
       }
 
-      if(e.key == "Control" || e.key == "Alt"){
+      
+
+      if(e.key == "Control"){
         if (Math.abs(this.dx) > 1 || Math.abs(this.dz) > 1) {
           console.log("sliding!")
           this.deaccelerationFactor = 0.99; // Sliding friction
@@ -127,7 +134,7 @@ class Player{
     if (this.proning) {
       this.targetCameraHeight = 0.2; // Proning height
     } else
-    if (this.pressed["Control"] || this.pressed["Alt"]) {
+    if (this.pressed["Control"] ) {
       this.targetCameraHeight = 0.5; // Crouching height
     } else {
 
@@ -151,13 +158,14 @@ class Player{
 	
   let dKey, aKey, wKey, sKey = 0;
   this.theta = this.obj.object3D.rotation.y;
+  this.deaccelerationFactor = 0.9; // Normal friction
   this.pressed["d"] ? dKey = 1 : dKey = 0;
   this.pressed["a"] ? aKey = 1 : aKey = 0;
   this.pressed["w"] ? wKey = 1 : wKey = 0;
   this.pressed["s"] ? sKey = 1 : sKey = 0;
-  this.pressed["Shift"] ? this.moveStrength = this.sprintStrength : this.moveStrength = this.walkStrength;
-  this.deaccelerationFactor = 0.9; // Normal friction
-  if (this.pressed["Control"] || this.pressed["Alt"]) {
+  this.pressed["Shift"] ? this.sprinting = true : this.sprinting = false;
+  this.moveStrength = this.sprinting ? this.sprintStrength : this.walkStrength;
+  if (this.pressed["Control"]) {
     this.moveStrength = this.crouchStrength;
     
   }
@@ -177,6 +185,8 @@ class Player{
   this.dx += strafe;
   this.dz += forward;
   impulse = new CANNON.Vec3((this.dx * Math.cos(this.theta)) + (this.dz * Math.sin(this.theta)), 0, (this.dz * Math.cos(this.theta)) - (this.dx * Math.sin(this.theta)));
+
+  
 
   //this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0)); // this line is commented out because it provides its own friction value
 
