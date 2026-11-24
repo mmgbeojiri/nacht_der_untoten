@@ -18,6 +18,7 @@ class Player{
 	this.grounded = false;
   this.proning = false;
   this.sprinting = false;
+  this.diving = false;
 
  this.cameraHeight = 1;
   this.targetCameraHeight = 1;
@@ -76,9 +77,14 @@ class Player{
       }
 
       if(e.key == "C") {
-        if (this.sprinting && dolphinDiveDebounce) {
+        if (this.proning) {this.proning = false; }
+        else if (this.sprinting && dolphinDiveDebounce) {
           console.log("dolphin dive")
           dolphinDiveDebounce = false;
+          let impulse = new CANNON.Vec3(0, this.jumpStrength*5, 0);
+      this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
+          this.proning = true;
+          this.diving = true;
         }
       }
 
@@ -165,7 +171,10 @@ class Player{
     }
 	
   let dKey, aKey, wKey, sKey = 0;
-  this.theta = this.obj.object3D.rotation.y;
+  if (!this.diving) {
+  this.theta = this.obj.object3D.rotation.y;} else {
+    this.theta = 0
+  }
   this.deaccelerationFactor = 0.9; // Normal friction
   this.pressed["d"] ? dKey = 1 : dKey = 0;
   this.pressed["a"] ? aKey = 1 : aKey = 0;
@@ -190,34 +199,47 @@ class Player{
     this.moving = true;
   }
   
+  if (!this.diving) {
   this.dx += strafe;
   this.dz += forward;
+}
   impulse = new CANNON.Vec3((this.dx * Math.cos(this.theta)) + (this.dz * Math.sin(this.theta)), 0, (this.dz * Math.cos(this.theta)) - (this.dx * Math.sin(this.theta)));
 
   
 
   //this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0)); // this line is commented out because it provides its own friction value
-
+  
   this.driver.body.velocity.x = impulse.x;
   this.driver.body.velocity.z = impulse.z;
 
 
   //console.log(`dx: ${this.dx.toFixed(2)}, dz: ${this.dz.toFixed(2)}, strafe: ${strafe}, forward: ${forward}, x_vel: ${this.dx * Math.cos(this.theta).toFixed(2)} grounded: ${this.isGrounded()}`);
   
+  if (!this.diving) {
     this.dx *= this.deaccelerationFactor;
     this.dz *= this.deaccelerationFactor;
+  }
 
 
-
-    if (Math.abs(this.driver.body.velocity.y) < 0.0001) {
+    if (Math.abs(this.driver.body.velocity.y) < 0.01) {
       this.jumping = false;
+      
 	  //console.log("landed");
     }
 	if (Math.abs(this.driver.body.velocity.y) > 0.01) {
 		this.grounded = false;
+    
     }else{
 		this.grounded = true;
+    
 	}
+
+  if (this.isGrounded() && Math.abs(this.driver.body.velocity.y) < 0.01) {
+    if (this.diving) {
+        console.log("landed from dolphin dive")
+      }
+      this.diving = false;
+  }
 
 	
   }
