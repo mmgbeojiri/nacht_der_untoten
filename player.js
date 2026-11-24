@@ -53,8 +53,13 @@ class Player{
     this.driver.addEventListener("body-loaded", ()=>{
       this.physicsReady = true;
     })
+
+    let dolphinDiveDebounce = true;
     window.addEventListener("keyup",(e)=>{
 		if(activeCamera == this.name){
+      if (e.key == "C") {
+        dolphinDiveDebounce = true;
+      }
 			delete this.pressed[e.key];
 			  if(e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == "ArrowDown" ||
 				 e.key == "w" || e.key == "a" || e.key == "s" || e.key == "d"){
@@ -66,11 +71,14 @@ class Player{
 		if(activeCamera == this.name){
 			this.pressed[e.key] = true; 
 
-      if (this.pressed["c"]) {
+      if (this.pressed["c"]) { // this is lowercase c, if shift + c is that we dont want to prone, we want to dive
         this.proning = !this.proning; // Toggle proning state
-        console.log(this.sprinting)
-        if (this.sprinting) {
+      }
+
+      if(e.key == "C") {
+        if (this.sprinting && dolphinDiveDebounce) {
           console.log("dolphin dive")
+          dolphinDiveDebounce = false;
         }
       }
 
