@@ -56,10 +56,14 @@ class Player{
     })
 
     let dolphinDiveDebounce = true;
+    let slidingDebounce = true;
     window.addEventListener("keyup",(e)=>{
 		if(activeCamera == this.name){
       if (e.key == "C") {
         dolphinDiveDebounce = true;
+      }
+      if(e.key == "Control") {
+        slidingDebounce = true;
       }
 			delete this.pressed[e.key];
 			  if(e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == "ArrowDown" ||
@@ -92,10 +96,15 @@ class Player{
 
       if(e.key == "Control"){
         if (Math.abs(this.dx) > 1 || Math.abs(this.dz) > 1) {
+          if (slidingDebounce) {
           console.log("sliding!")
           this.deaccelerationFactor = 0.99; // Sliding friction
-           /* let impulse = new CANNON.Vec3((5 * Math.cos(this.theta)) + (this.dz * Math.sin(this.theta)), 0, (this.dz * Math.cos(this.theta)) - (5* Math.sin(this.theta)));
-
+          this.dx *= 2
+          this.dz *= 2
+          slidingDebounce = false
+        }
+          /* let impulse = new CANNON.Vec3((5 * Math.cos(this.theta)) + (this.dz * Math.sin(this.theta)), 0, (this.dz * Math.cos(this.theta)) - (5* Math.sin(this.theta)));
+          
           this.driver.body.applyImpulse(impulse, new CANNON.Vec3(5, 0, 0)); // this line is commented out because it provides its own friction value*/
         }
       }
@@ -171,10 +180,8 @@ class Player{
     }
 	
   let dKey, aKey, wKey, sKey = 0;
-  if (!this.diving) {
-  this.theta = this.obj.object3D.rotation.y;} else {
-    this.theta = 0
-  }
+  
+  this.theta = this.obj.object3D.rotation.y;
   this.deaccelerationFactor = 0.9; // Normal friction
   this.pressed["d"] ? dKey = 1 : dKey = 0;
   this.pressed["a"] ? aKey = 1 : aKey = 0;
@@ -234,7 +241,7 @@ class Player{
     
 	}
 
-  if (this.isGrounded() && Math.abs(this.driver.body.velocity.y) < 0.01) {
+  if (this.isGrounded() && (this.driver.body.velocity.y) < 0) {
     if (this.diving) {
         console.log("landed from dolphin dive")
       }
