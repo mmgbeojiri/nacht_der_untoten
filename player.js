@@ -70,7 +70,7 @@ class Player{
       }
 			delete this.pressed[e.key];
 			  if(e.key == "ArrowUp" || e.key == "ArrowLeft" || e.key == "ArrowRight" || e.key == "ArrowDown" ||
-				 e.key == "w" || e.key == "a" || e.key == "s" || e.key == "d"){
+				 e.key.toLowerCase() == "w" || e.key == "a" || e.key == "s" || e.key == "d" ){
 				this.moving = false;
 			  }
 		}
@@ -88,7 +88,9 @@ class Player{
         else if (this.sprinting && dolphinDiveDebounce) {
           console.log("dolphin dive")
           dolphinDiveDebounce = false;
-          let impulse = new CANNON.Vec3(0, this.jumpStrength*5, 0);
+          let impulse = new CANNON.Vec3(0, this.jumpStrength*5, 0); // jump in the dolphin dive
+
+          
       this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0));
           this.proning = true;
           this.diving = true;
@@ -213,6 +215,9 @@ class Player{
     this.moving = true;
   }
   
+  this.disagreement_x = this.dx; // Disagreements are the last velocity.
+  this.disagreement_z = this.dz;
+
   if (!this.diving) {
   this.dx += strafe;
   this.dz += forward;
@@ -225,10 +230,30 @@ class Player{
 
   
 
-  //this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0)); // this line is commented out because it provides its own friction value
-  
-  this.driver.body.velocity.x = impulse.x;
-  this.driver.body.velocity.z = impulse.z;
+
+//this.driver.body.applyImpulse(impulse, new CANNON.Vec3(0, 0, 0)); // this line is commented out because it provides its own friction value
+
+//disagreements occur when a player colides with a wall and bounces off.
+// disagreements are when the simulated velocity is differenent than the theoratical velocity.
+//how can i detect a collision using the differences from the simulated velocity and theoretical velocity if i set them equal to each other every frame?
+this.simulated_velocity_x = impulse.x;
+
+this.last_theoretical_velocity_x = this.driver.body.velocity.x
+
+console.log( this.simulated_velocity_x - this.last_theoretical_velocity_x)
+if (Math.abs(this.simulated_velocity_x - this.last_theoretical_velocity_x) > 10) {
+  console.log("ow")
+  this.driver.body.velocity.x = 0
+  impulse.x = 0;
+}
+
+this.driver.body.velocity.x = impulse.x;
+this.driver.body.velocity.z = impulse.z;
+
+
+
+
+
 
 
   //console.log(`dx: ${this.dx.toFixed(2)}, dz: ${this.dz.toFixed(2)}, strafe: ${strafe}, forward: ${forward}, x_vel: ${this.dx * Math.cos(this.theta).toFixed(2)} grounded: ${this.isGrounded()}`);
