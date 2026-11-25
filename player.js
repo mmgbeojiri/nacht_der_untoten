@@ -20,6 +20,9 @@ class Player{
   this.sprinting = false;
   this.diving = false;
 
+  this.divingTheta = null;
+  this.divingThetaDebounce = true;
+
  this.cameraHeight = 1;
   this.targetCameraHeight = 1;
   
@@ -167,7 +170,7 @@ class Player{
   }
 
   processImpulses(){
-    let impulse = null, theta = 0;
+    let impulse = null;
     
     
     if(this.pressed[" "] && this.isGrounded()){
@@ -182,6 +185,10 @@ class Player{
   let dKey, aKey, wKey, sKey = 0;
   
   this.theta = this.obj.object3D.rotation.y;
+  if (this.diving && this.divingTheta == null && this.divingThetaDebounce) {
+    this.divingTheta = this.theta;
+    this.divingThetaDebounce = false;
+  }
   this.deaccelerationFactor = 0.9; // Normal friction
   this.pressed["d"] ? dKey = 1 : dKey = 0;
   this.pressed["a"] ? aKey = 1 : aKey = 0;
@@ -209,8 +216,12 @@ class Player{
   if (!this.diving) {
   this.dx += strafe;
   this.dz += forward;
-}
   impulse = new CANNON.Vec3((this.dx * Math.cos(this.theta)) + (this.dz * Math.sin(this.theta)), 0, (this.dz * Math.cos(this.theta)) - (this.dx * Math.sin(this.theta)));
+} else {
+  // diving, no dx/dz change
+    impulse = new CANNON.Vec3((this.dx * Math.cos(this.divingTheta)) + (this.dz * Math.sin(this.divingTheta)), 0, (this.dz * Math.cos(this.divingTheta)) - (this.dx * Math.sin(this.divingTheta)));
+
+}
 
   
 
@@ -244,6 +255,8 @@ class Player{
   if (this.isGrounded() && (this.driver.body.velocity.y) < 0) {
     if (this.diving) {
         console.log("landed from dolphin dive")
+        this.divingThetaDebounce = true;
+        this.divingTheta = null
       }
       this.diving = false;
   }
